@@ -1,11 +1,11 @@
-import { usePropertyStore, Lead } from "@/contexts/PropertyStoreContext";
+import { useLeads, useUpdateLeadStatus } from "@/hooks/useLeads";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MessageCircle } from "lucide-react";
 
-const statusMap: Record<Lead["status"], { label: string; className: string }> = {
+const statusMap: Record<string, { label: string; className: string }> = {
   novo: { label: "Novo", className: "bg-blue-100 text-blue-700" },
   em_atendimento: { label: "Em atendimento", className: "bg-amber-100 text-amber-700" },
   concluido: { label: "Concluído", className: "bg-emerald-100 text-emerald-700" },
@@ -18,7 +18,8 @@ const tipoMap: Record<string, string> = {
 };
 
 export default function AdminLeads() {
-  const { leads, updateLeadStatus } = usePropertyStore();
+  const { data: leads = [], isLoading } = useLeads();
+  const updateStatus = useUpdateLeadStatus();
 
   const openWhatsApp = (phone: string, nome: string) => {
     const cleaned = phone.replace(/\D/g, "");
@@ -29,7 +30,6 @@ export default function AdminLeads() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[hsl(var(--nova-purple))]">Leads</h1>
-
       <div className="bg-white rounded-lg border shadow-sm overflow-x-auto">
         <Table>
           <TableHeader>
@@ -45,26 +45,24 @@ export default function AdminLeads() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {leads.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
-                  Nenhum lead recebido.
-                </TableCell>
-              </TableRow>
+            {isLoading ? (
+              <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Carregando...</TableCell></TableRow>
+            ) : leads.length === 0 ? (
+              <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Nenhum lead recebido.</TableCell></TableRow>
             ) : (
               leads.map((l) => (
                 <TableRow key={l.id}>
                   <TableCell className="font-medium">{l.nome}</TableCell>
                   <TableCell className="whitespace-nowrap">{l.telefone}</TableCell>
-                  <TableCell className="hidden md:table-cell">{tipoMap[l.tipo] || l.tipo}</TableCell>
-                  <TableCell className="hidden md:table-cell font-mono text-sm">{l.imovel_interesse || "—"}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{l.criado_em}</TableCell>
-                  <TableCell className="hidden lg:table-cell capitalize">{l.origem}</TableCell>
+                  <TableCell className="hidden md:table-cell">{tipoMap[l.tipo || ""] || l.tipo || "—"}</TableCell>
+                  <TableCell className="hidden md:table-cell font-mono text-sm">{l.imovel_codigo || "—"}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{l.criado_em ? new Date(l.criado_em).toLocaleDateString("pt-BR") : "—"}</TableCell>
+                  <TableCell className="hidden lg:table-cell capitalize">{l.origem || "—"}</TableCell>
                   <TableCell>
-                    <Select value={l.status} onValueChange={(v) => updateLeadStatus(l.id, v as Lead["status"])}>
+                    <Select value={l.status || "novo"} onValueChange={(v) => updateStatus.mutate({ id: l.id, status: v })}>
                       <SelectTrigger className="h-7 w-[130px] text-xs">
-                        <Badge className={`${statusMap[l.status].className} border-0 text-xs`}>
-                          {statusMap[l.status].label}
+                        <Badge className={`${statusMap[l.status || "novo"]?.className} border-0 text-xs`}>
+                          {statusMap[l.status || "novo"]?.label}
                         </Badge>
                       </SelectTrigger>
                       <SelectContent>
@@ -75,12 +73,7 @@ export default function AdminLeads() {
                     </Select>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-emerald-600 hover:text-emerald-700"
-                      onClick={() => openWhatsApp(l.telefone, l.nome)}
-                    >
+                    <Button variant="ghost" size="sm" className="text-emerald-600 hover:text-emerald-700" onClick={() => openWhatsApp(l.telefone, l.nome)}>
                       <MessageCircle className="w-4 h-4 mr-1" />
                       <span className="hidden sm:inline">WhatsApp</span>
                     </Button>

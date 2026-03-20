@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ClipboardList, BarChart3, Megaphone, Handshake, Scale, Shield } from "lucide-react";
+import { ClipboardList, BarChart3, Megaphone, Handshake, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { useCreateLead } from "@/hooks/useLeads";
 import { toast } from "sonner";
 
 const etapas = [
@@ -12,18 +13,26 @@ const etapas = [
 ];
 
 export default function AnunciePage() {
-  const [form, setForm] = useState({
-    nome: "", telefone: "", tipo: "", finalidade: "", bairro: "", mensagem: "",
-  });
+  const createLead = useCreateLead();
+  const [form, setForm] = useState({ nome: "", telefone: "", tipo: "", finalidade: "", bairro: "", mensagem: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.nome.trim() || !form.telefone.trim()) {
       toast.error("Preencha nome e telefone");
       return;
     }
-    toast.success("Cadastro enviado! Entraremos em contato em breve.");
-    setForm({ nome: "", telefone: "", tipo: "", finalidade: "", bairro: "", mensagem: "" });
+    try {
+      await createLead.mutateAsync({
+        nome: form.nome, telefone: form.telefone,
+        tipo: "proprietario", origem: "formulario",
+        mensagem: `Tipo: ${form.tipo || "N/A"}, Finalidade: ${form.finalidade || "N/A"}, Bairro: ${form.bairro || "N/A"}. ${form.mensagem}`.trim(),
+      });
+      toast.success("Cadastro enviado! Entraremos em contato em breve.");
+      setForm({ nome: "", telefone: "", tipo: "", finalidade: "", bairro: "", mensagem: "" });
+    } catch {
+      toast.error("Erro ao enviar. Tente novamente.");
+    }
   };
 
   return (
@@ -31,25 +40,18 @@ export default function AnunciePage() {
       <div className="bg-primary-dark text-white section-padding">
         <div className="container text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Venda ou alugue seu imóvel<br />com segurança jurídica</h1>
-          <p className="text-white/70 text-lg max-w-xl mx-auto">
-            Conte com uma imobiliária gerenciada por advogado para cuidar do seu patrimônio
-          </p>
+          <p className="text-white/70 text-lg max-w-xl mx-auto">Conte com uma imobiliária gerenciada por advogado para cuidar do seu patrimônio</p>
         </div>
       </div>
 
-      {/* Etapas */}
       <section className="section-padding bg-background">
         <div className="container">
-          <ScrollReveal>
-            <h2 className="text-2xl font-bold text-foreground text-center mb-10">Como funciona</h2>
-          </ScrollReveal>
+          <ScrollReveal><h2 className="text-2xl font-bold text-foreground text-center mb-10">Como funciona</h2></ScrollReveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {etapas.map((e, i) => (
               <ScrollReveal key={e.title} delay={i * 100}>
                 <div className="text-center">
-                  <div className="h-16 w-16 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mx-auto mb-4">
-                    <e.icon className="h-8 w-8" />
-                  </div>
+                  <div className="h-16 w-16 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mx-auto mb-4"><e.icon className="h-8 w-8" /></div>
                   <div className="text-xs font-bold text-accent mb-1">Etapa {i + 1}</div>
                   <h3 className="font-semibold text-foreground">{e.title}</h3>
                   <p className="text-sm text-muted-foreground mt-1">{e.desc}</p>
@@ -60,7 +62,6 @@ export default function AnunciePage() {
         </div>
       </section>
 
-      {/* Form */}
       <section className="section-padding bg-muted/30">
         <div className="container max-w-2xl">
           <ScrollReveal>
@@ -87,7 +88,9 @@ export default function AnunciePage() {
                 </div>
                 <input type="text" placeholder="Bairro" value={form.bairro} onChange={(e) => setForm({ ...form, bairro: e.target.value })} className="w-full h-11 rounded-lg border border-input bg-background px-4 text-sm" />
                 <textarea placeholder="Mensagem (opcional)" value={form.mensagem} onChange={(e) => setForm({ ...form, mensagem: e.target.value })} rows={4} className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm resize-none" />
-                <Button type="submit" variant="accent" size="lg" className="w-full">Enviar cadastro</Button>
+                <Button type="submit" variant="accent" size="lg" className="w-full" disabled={createLead.isPending}>
+                  {createLead.isPending ? "Enviando..." : "Enviar cadastro"}
+                </Button>
               </form>
             </div>
           </ScrollReveal>
