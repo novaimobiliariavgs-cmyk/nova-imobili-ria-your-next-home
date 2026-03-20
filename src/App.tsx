@@ -52,6 +52,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/redefinir-senha" element={<ResetPassword />} />
             <Route path="/admin/*" element={<AdminLayout />}>
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="imoveis" element={<AdminImoveis />} />
