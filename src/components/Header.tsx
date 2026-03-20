@@ -21,7 +21,7 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src="/logo.png" alt="Nova Imobiliária" className="h-[44px] w-auto object-contain" />
+          <img src="/logo.png" alt="Nova Imobiliária" className="h-[44px] w-auto object-contain mix-blend-multiply" />
         </Link>
 
         {/* Desktop Nav */}
