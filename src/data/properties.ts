@@ -24,6 +24,15 @@ export interface Imovel {
   tags: string[] | null;
 }
 
+export const cidades = [
+  "Vargem Grande do Sul",
+  "Casa Branca",
+  "São João da Boa Vista",
+  "Espírito Santo do Pinhal",
+  "Aguaí",
+  "Mococa",
+];
+
 export const bairros = [
   "Centro",
   "Jardim São Paulo",

@@ -69,6 +69,13 @@ export default function ImoveisPage() {
                   </select>
                 </div>
                 <div>
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Cidade</label>
+                  <select value={cidadeParam} onChange={(e) => setFilter("cidade", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
+                    <option value="">Todas</option>
+                    {cidades.map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
                   <label className="text-xs font-medium text-muted-foreground mb-1 block">Bairro</label>
                   <select value={bairroParam} onChange={(e) => setFilter("bairro", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
                     <option value="">Todos</option>
