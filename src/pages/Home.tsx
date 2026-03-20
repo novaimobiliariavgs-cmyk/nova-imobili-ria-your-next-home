@@ -4,7 +4,7 @@ import { Search, Home, Building, TreePine, Store, Shield, Scale, Eye, Handshake,
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { bairros, type Finalidade } from "@/data/properties";
+import { bairros, cidades, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
 
