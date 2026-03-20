@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { bairros, type Finalidade, type TipoImovel } from "@/data/properties";
+import { bairros, cidades, type Finalidade, type TipoImovel } from "@/data/properties";
 import { useImoveis } from "@/hooks/useImoveis";
 
 type SortOption = "recentes" | "menor_preco" | "maior_preco";
