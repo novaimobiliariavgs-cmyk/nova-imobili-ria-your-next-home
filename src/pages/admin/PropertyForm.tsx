@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { ArrowLeft, Save, Upload, X } from "lucide-react";
-import { bairros } from "@/data/properties";
+
 
 const tipos: { value: TipoImovel; label: string }[] = [
   { value: "casa", label: "Casa" },
