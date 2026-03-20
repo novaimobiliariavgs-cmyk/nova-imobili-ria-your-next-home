@@ -1,13 +1,70 @@
 import { useParams, Link } from "react-router-dom";
-import { Bed, Bath, Car, Maximize, MapPin, ArrowLeft, MessageCircle } from "lucide-react";
+import { Bed, Bath, Car, Maximize, MapPin, ArrowLeft, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { formatPrice, getWhatsAppLink } from "@/data/properties";
 import { useImovel, useImoveis } from "@/hooks/useImoveis";
 import { useCreateLead } from "@/hooks/useLeads";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "sonner";
+
+function PhotoGallery({ fotos, titulo }: { fotos: string[]; titulo: string }) {
+  const [current, setCurrent] = useState(0);
+  const total = fotos.length;
+
+  const prev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total]);
+  const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
+
+  if (total === 0) {
+    return (
+      <div className="aspect-video rounded-xl bg-muted flex items-center justify-center">
+        <div className="text-muted-foreground/30 text-center">
+          <Maximize className="h-16 w-16 mx-auto mb-2" /><p className="text-sm">Sem fotos</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="relative aspect-video rounded-xl bg-muted overflow-hidden group">
+        <img src={fotos[current]} alt={`${titulo} - Foto ${current + 1}`} className="w-full h-full object-cover" />
+        
+        {total > 1 && (
+          <>
+            <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 active:scale-95">
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 active:scale-95">
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </>
+        )}
+
+        <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-md">
+          {current + 1} / {total}
+        </div>
+      </div>
+
+      {total > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {fotos.map((url, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                i === current ? "border-primary ring-1 ring-primary/30" : "border-transparent opacity-60 hover:opacity-100"
+              }`}
+            >
+              <img src={url} alt={`Miniatura ${i + 1}`} className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ImovelDetailPage() {
   const { id } = useParams();
@@ -61,15 +118,7 @@ export default function ImovelDetailPage() {
 
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
-            <div className="aspect-video rounded-xl bg-muted flex items-center justify-center overflow-hidden">
-              {imovel.fotos && imovel.fotos[0] ? (
-                <img src={imovel.fotos[0]} alt={imovel.titulo} className="w-full h-full object-cover" />
-              ) : (
-                <div className="text-muted-foreground/30 text-center">
-                  <Maximize className="h-16 w-16 mx-auto mb-2" /><p className="text-sm">Galeria de fotos</p>
-                </div>
-              )}
-            </div>
+            <PhotoGallery fotos={imovel.fotos || []} titulo={imovel.titulo} />
 
             <ScrollReveal>
               <div>

@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { ArrowLeft, Save, Upload, X } from "lucide-react";
-import { bairros } from "@/data/properties";
+
 
 const tipos: { value: TipoImovel; label: string }[] = [
   { value: "casa", label: "Casa" },
@@ -176,10 +176,7 @@ export default function PropertyForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Bairro *</Label>
-                <Select value={form.bairro} onValueChange={(v) => set("bairro", v)}>
-                  <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
-                  <SelectContent>{bairros.map((b) => <SelectItem key={b} value={b}>{b}</SelectItem>)}</SelectContent>
-                </Select>
+                <Input value={form.bairro} onChange={(e) => set("bairro", e.target.value)} placeholder="Digite o bairro" required />
               </div>
               <div className="space-y-2">
                 <Label>Cidade</Label>
