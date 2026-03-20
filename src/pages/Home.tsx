@@ -25,6 +25,7 @@ const diferenciais = [
 export default function HomePage() {
   const [finalidade, setFinalidade] = useState<Finalidade>("venda");
   const [tipo, setTipo] = useState("");
+  const [cidade, setCidade] = useState("");
   const [bairro, setBairro] = useState("");
   const [activeTab, setActiveTab] = useState<string>("venda");
 
