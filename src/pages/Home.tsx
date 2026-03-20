@@ -4,7 +4,7 @@ import { Search, Home, Building, TreePine, Store, Shield, Scale, Eye, Handshake,
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { bairros, cidades, type Finalidade } from "@/data/properties";
+import { cidades, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -26,7 +26,7 @@ export default function HomePage() {
   const [finalidade, setFinalidade] = useState<Finalidade>("venda");
   const [tipo, setTipo] = useState("");
   const [cidade, setCidade] = useState("");
-  const [bairro, setBairro] = useState("");
+  
   const [activeTab, setActiveTab] = useState<string>("venda");
 
   const { data: destaque = [] } = useImoveisDestaque();
@@ -59,23 +59,19 @@ export default function HomePage() {
                 <option value="venda">Comprar</option>
                 <option value="aluguel">Alugar</option>
               </select>
-              <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary">
+              <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary flex-1">
                 <option value="">Tipo de imóvel</option>
                 <option value="casa">Casa</option>
                 <option value="apartamento">Apartamento</option>
                 <option value="terreno">Terreno</option>
                 <option value="comercial">Comercial</option>
               </select>
-              <select value={cidade} onChange={(e) => setCidade(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary">
+              <select value={cidade} onChange={(e) => setCidade(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary flex-1">
                 <option value="">Todas as cidades</option>
                 {cidades.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
-              <select value={bairro} onChange={(e) => setBairro(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground flex-1 focus:ring-2 focus:ring-primary">
-                <option value="">Bairro</option>
-                {bairros.map((b) => <option key={b} value={b}>{b}</option>)}
-              </select>
               <Button variant="accent" size="lg" className="rounded-xl" asChild>
-                <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${cidade ? `&cidade=${cidade}` : ""}${bairro ? `&bairro=${bairro}` : ""}`}>
+                <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${cidade ? `&cidade=${cidade}` : ""}`}>
                   <Search className="h-5 w-5" /> Buscar
                 </Link>
               </Button>
