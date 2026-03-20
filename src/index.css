@@ -42,6 +42,15 @@
     --hero-overlay: 270 52% 20%;
     --surface-elevated: 0 0% 100%;
     --whatsapp: 142 70% 40%;
+    --nova-purple: 270 52% 36%;
+    --nova-orange: 27 91% 54%;
+
+    --sidebar: 270 52% 36%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-border: 270 52% 30%;
+    --sidebar-accent: 270 52% 42%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-ring: 27 91% 54%;
   }
 }
 
