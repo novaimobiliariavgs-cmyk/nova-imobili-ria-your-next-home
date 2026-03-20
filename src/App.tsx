@@ -19,6 +19,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import AdminImoveis from "./pages/admin/AdminImoveis";
 import PropertyForm from "./pages/admin/PropertyForm";
 import AdminLeads from "./pages/admin/AdminLeads";
+import ResetPassword from "./pages/admin/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/redefinir-senha" element={<ResetPassword />} />
             <Route path="/admin/*" element={<AdminLayout />}>
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="imoveis" element={<AdminImoveis />} />

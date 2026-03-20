@@ -1,67 +1,74 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 interface AdminAuth {
   isAuthenticated: boolean;
-  login: (email: string, password: string) => boolean;
-  logout: () => void;
+  isLoading: boolean;
+  user: User | null;
+  login: (email: string, password: string) => Promise<{ error?: string }>;
+  logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuth | null>(null);
 
-const ADMIN_EMAIL = "admin@novaimobiliaria.com.br";
-const ADMIN_PASSWORD = "nova2024";
-const SESSION_KEY = "admin_session";
-const SESSION_DURATION = 8 * 60 * 60 * 1000; // 8 hours
+const INACTIVITY_TIMEOUT = 8 * 60 * 60 * 1000; // 8 hours
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const session = localStorage.getItem(SESSION_KEY);
-    if (!session) return false;
-    try {
-      const { expiresAt } = JSON.parse(session);
-      return Date.now() < expiresAt;
-    } catch {
-      return false;
-    }
-  });
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const lastActivityRef = useRef(Date.now());
 
-  const refreshSession = useCallback(() => {
-    if (!isAuthenticated) return;
-    const session = localStorage.getItem(SESSION_KEY);
-    if (!session) return;
-    try {
-      const parsed = JSON.parse(session);
-      if (Date.now() >= parsed.expiresAt) {
-        setIsAuthenticated(false);
-        localStorage.removeItem(SESSION_KEY);
-      }
-    } catch {
-      setIsAuthenticated(false);
-      localStorage.removeItem(SESSION_KEY);
-    }
-  }, [isAuthenticated]);
+  // Track user activity
+  const resetActivity = useCallback(() => {
+    lastActivityRef.current = Date.now();
+  }, []);
 
   useEffect(() => {
-    const interval = setInterval(refreshSession, 60_000);
-    return () => clearInterval(interval);
-  }, [refreshSession]);
+    const events = ["mousedown", "keydown", "scroll", "touchstart"];
+    events.forEach((e) => window.addEventListener(e, resetActivity));
+    return () => events.forEach((e) => window.removeEventListener(e, resetActivity));
+  }, [resetActivity]);
 
-  const login = (email: string, password: string) => {
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      localStorage.setItem(SESSION_KEY, JSON.stringify({ expiresAt: Date.now() + SESSION_DURATION }));
-      setIsAuthenticated(true);
-      return true;
-    }
-    return false;
+  // Check inactivity
+  useEffect(() => {
+    if (!user) return;
+    const interval = setInterval(async () => {
+      if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
+        await supabase.auth.signOut();
+      }
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, [user]);
+
+  // Listen to auth state
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { error: error.message };
+    resetActivity();
+    return {};
   };
 
-  const logout = () => {
-    localStorage.removeItem(SESSION_KEY);
-    setIsAuthenticated(false);
+  const logout = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
-    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AdminAuthContext.Provider value={{ isAuthenticated: !!user, isLoading, user, login, logout }}>
       {children}
     </AdminAuthContext.Provider>
   );

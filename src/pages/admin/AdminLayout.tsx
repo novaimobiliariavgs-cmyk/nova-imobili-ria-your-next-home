@@ -6,7 +6,15 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 
 export default function AdminLayout() {
-  const { isAuthenticated, logout } = useAdminAuth();
+  const { isAuthenticated, isLoading, user, logout } = useAdminAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <p className="text-muted-foreground">Carregando...</p>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/admin" replace />;
@@ -21,7 +29,7 @@ export default function AdminLayout() {
             <SidebarTrigger />
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground hidden sm:block">
-                admin@novaimobiliaria.com.br
+                {user?.email}
               </span>
               <Button
                 variant="ghost"
