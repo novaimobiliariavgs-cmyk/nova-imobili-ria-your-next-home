@@ -19,6 +19,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import AdminImoveis from "./pages/admin/AdminImoveis";
 import PropertyForm from "./pages/admin/PropertyForm";
 import AdminLeads from "./pages/admin/AdminLeads";
+import ResetPassword from "./pages/admin/ResetPassword";
 
 const queryClient = new QueryClient();
 
