@@ -40,10 +40,10 @@ export function formatPrice(value: number, finalidade: string): string {
 }
 
 export function getWhatsAppLink(codigo?: string, titulo?: string): string {
-  const phone = "5519999999999";
-  let msg = "Olá! Gostaria de mais informações";
+  const phone = "5519992243434";
+  let msg = "Olá! Vim pelo site da Nova Imobiliária e gostaria de mais informações.";
   if (codigo && titulo) {
-    msg = `Olá! Tenho interesse no imóvel ${codigo} - ${titulo}`;
+    msg = `Olá! Tenho interesse no imóvel ${codigo} - ${titulo}. Poderia me passar mais informações?`;
   }
   return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
 }

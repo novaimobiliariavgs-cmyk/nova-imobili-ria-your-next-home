@@ -20,14 +20,8 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">N</span>
-          </div>
-          <div className="leading-none">
-            <span className="font-bold text-foreground text-lg">Nova</span>
-            <span className="block text-xs text-muted-foreground -mt-0.5">Imobiliária</span>
-          </div>
+        <Link to="/" className="flex items-center">
+          <img src="/logo.png" alt="Nova Imobiliária" className="h-[44px] w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav */}
