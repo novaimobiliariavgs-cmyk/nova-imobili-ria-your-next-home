@@ -6,6 +6,7 @@ import type { TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 export function useImoveis(filters?: {
   finalidade?: string;
   tipo?: string;
+  cidade?: string;
   bairro?: string;
   search?: string;
   status?: string;
