@@ -15,6 +15,7 @@ export default function ImoveisPage() {
 
   const finalidade = (searchParams.get("finalidade") as Finalidade) || "";
   const tipo = (searchParams.get("tipo") as TipoImovel) || "";
+  const cidadeParam = searchParams.get("cidade") || "";
   const bairroParam = searchParams.get("bairro") || "";
   const sort = (searchParams.get("sort") as SortOption) || "recentes";
 
