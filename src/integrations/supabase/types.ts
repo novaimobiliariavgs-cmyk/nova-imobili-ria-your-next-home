@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      imoveis: {
+        Row: {
+          bairro: string
+          banheiros: number | null
+          cidade: string
+          codigo: string
+          criado_em: string | null
+          descricao: string | null
+          destaque: boolean | null
+          finalidade: string
+          fotos: string[] | null
+          id: string
+          metragem: number | null
+          preco: number
+          quartos: number | null
+          status: string | null
+          tags: string[] | null
+          tipo: string
+          titulo: string
+          vagas: number | null
+        }
+        Insert: {
+          bairro: string
+          banheiros?: number | null
+          cidade?: string
+          codigo: string
+          criado_em?: string | null
+          descricao?: string | null
+          destaque?: boolean | null
+          finalidade: string
+          fotos?: string[] | null
+          id?: string
+          metragem?: number | null
+          preco: number
+          quartos?: number | null
+          status?: string | null
+          tags?: string[] | null
+          tipo: string
+          titulo: string
+          vagas?: number | null
+        }
+        Update: {
+          bairro?: string
+          banheiros?: number | null
+          cidade?: string
+          codigo?: string
+          criado_em?: string | null
+          descricao?: string | null
+          destaque?: boolean | null
+          finalidade?: string
+          fotos?: string[] | null
+          id?: string
+          metragem?: number | null
+          preco?: number
+          quartos?: number | null
+          status?: string | null
+          tags?: string[] | null
+          tipo?: string
+          titulo?: string
+          vagas?: number | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          criado_em: string | null
+          email: string | null
+          id: string
+          imovel_codigo: string | null
+          mensagem: string | null
+          nome: string
+          origem: string | null
+          status: string | null
+          telefone: string
+          tipo: string | null
+        }
+        Insert: {
+          criado_em?: string | null
+          email?: string | null
+          id?: string
+          imovel_codigo?: string | null
+          mensagem?: string | null
+          nome: string
+          origem?: string | null
+          status?: string | null
+          telefone: string
+          tipo?: string | null
+        }
+        Update: {
+          criado_em?: string | null
+          email?: string | null
+          id?: string
+          imovel_codigo?: string | null
+          mensagem?: string | null
+          nome?: string
+          origem?: string | null
+          status?: string | null
+          telefone?: string
+          tipo?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
