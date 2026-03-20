@@ -22,6 +22,7 @@ export default function ImoveisPage() {
   const { data: imoveis = [], isLoading } = useImoveis({
     finalidade: finalidade || undefined,
     tipo: tipo || undefined,
+    cidade: cidadeParam || undefined,
     bairro: bairroParam || undefined,
     search: codigo || undefined,
     sort,
