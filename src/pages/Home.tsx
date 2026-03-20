@@ -49,7 +49,6 @@ export default function HomePage() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-4 animate-reveal-up">
             Encontre seu imóvel ideal<br className="hidden md:block" /> em Vargem Grande do Sul
           </h1>
-          </h1>
           <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-reveal-up" style={{ animationDelay: "100ms" }}>
             Compra, venda e locação com segurança jurídica
           </p>
