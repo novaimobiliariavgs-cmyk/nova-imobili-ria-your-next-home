@@ -6,7 +6,6 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
-import { PropertyStoreProvider } from "@/contexts/PropertyStoreContext";
 import Home from "./pages/Home";
 import Imoveis from "./pages/Imoveis";
 import ImovelDetail from "./pages/ImovelDetail";
@@ -49,21 +48,19 @@ const App = () => (
     <TooltipProvider>
       <Sonner />
       <AdminAuthProvider>
-        <PropertyStoreProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/admin/*" element={<AdminLayout />}>
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="imoveis" element={<AdminImoveis />} />
-                <Route path="imoveis/novo" element={<PropertyForm />} />
-                <Route path="imoveis/editar/:id" element={<PropertyForm />} />
-                <Route path="leads" element={<AdminLeads />} />
-              </Route>
-              <Route path="/*" element={<PublicLayout />} />
-            </Routes>
-          </BrowserRouter>
-        </PropertyStoreProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/*" element={<AdminLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="imoveis" element={<AdminImoveis />} />
+              <Route path="imoveis/novo" element={<PropertyForm />} />
+              <Route path="imoveis/editar/:id" element={<PropertyForm />} />
+              <Route path="leads" element={<AdminLeads />} />
+            </Route>
+            <Route path="/*" element={<PublicLayout />} />
+          </Routes>
+        </BrowserRouter>
       </AdminAuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
