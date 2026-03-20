@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { bairros, type Finalidade, type TipoImovel } from "@/data/properties";
+import { bairros, cidades, type Finalidade, type TipoImovel } from "@/data/properties";
 import { useImoveis } from "@/hooks/useImoveis";
 
 type SortOption = "recentes" | "menor_preco" | "maior_preco";
@@ -15,12 +15,14 @@ export default function ImoveisPage() {
 
   const finalidade = (searchParams.get("finalidade") as Finalidade) || "";
   const tipo = (searchParams.get("tipo") as TipoImovel) || "";
+  const cidadeParam = searchParams.get("cidade") || "";
   const bairroParam = searchParams.get("bairro") || "";
   const sort = (searchParams.get("sort") as SortOption) || "recentes";
 
   const { data: imoveis = [], isLoading } = useImoveis({
     finalidade: finalidade || undefined,
     tipo: tipo || undefined,
+    cidade: cidadeParam || undefined,
     bairro: bairroParam || undefined,
     search: codigo || undefined,
     sort,
@@ -64,6 +66,13 @@ export default function ImoveisPage() {
                     <option value="apartamento">Apartamento</option>
                     <option value="terreno">Terreno</option>
                     <option value="comercial">Comercial</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Cidade</label>
+                  <select value={cidadeParam} onChange={(e) => setFilter("cidade", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
+                    <option value="">Todas</option>
+                    {cidades.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>

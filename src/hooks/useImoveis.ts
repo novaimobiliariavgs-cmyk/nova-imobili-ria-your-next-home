@@ -6,6 +6,7 @@ import type { TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 export function useImoveis(filters?: {
   finalidade?: string;
   tipo?: string;
+  cidade?: string;
   bairro?: string;
   search?: string;
   status?: string;
@@ -18,6 +19,7 @@ export function useImoveis(filters?: {
 
       if (filters?.finalidade) query = query.eq("finalidade", filters.finalidade);
       if (filters?.tipo) query = query.eq("tipo", filters.tipo);
+      if (filters?.cidade) query = query.eq("cidade", filters.cidade);
       if (filters?.bairro) query = query.eq("bairro", filters.bairro);
       if (filters?.status && filters.status !== "todos") query = query.eq("status", filters.status);
       if (filters?.search) {

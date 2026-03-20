@@ -4,7 +4,7 @@ import { Search, Home, Building, TreePine, Store, Shield, Scale, Eye, Handshake,
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { bairros, type Finalidade } from "@/data/properties";
+import { bairros, cidades, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -25,6 +25,7 @@ const diferenciais = [
 export default function HomePage() {
   const [finalidade, setFinalidade] = useState<Finalidade>("venda");
   const [tipo, setTipo] = useState("");
+  const [cidade, setCidade] = useState("");
   const [bairro, setBairro] = useState("");
   const [activeTab, setActiveTab] = useState<string>("venda");
 
@@ -47,7 +48,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[hsl(var(--hero-overlay)/0.75)]" />
         <div className="relative z-10 container text-center py-32">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-4 animate-reveal-up">
-            Encontre seu imóvel ideal<br className="hidden md:block" /> em Vargem Grande do Sul
+            Encontre seu imóvel ideal
           </h1>
           <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-reveal-up" style={{ animationDelay: "100ms" }}>
             Compra, venda e locação com segurança jurídica
@@ -65,12 +66,16 @@ export default function HomePage() {
                 <option value="terreno">Terreno</option>
                 <option value="comercial">Comercial</option>
               </select>
+              <select value={cidade} onChange={(e) => setCidade(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary">
+                <option value="">Todas as cidades</option>
+                {cidades.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
               <select value={bairro} onChange={(e) => setBairro(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground flex-1 focus:ring-2 focus:ring-primary">
                 <option value="">Bairro</option>
                 {bairros.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
               <Button variant="accent" size="lg" className="rounded-xl" asChild>
-                <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${bairro ? `&bairro=${bairro}` : ""}`}>
+                <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${cidade ? `&cidade=${cidade}` : ""}${bairro ? `&bairro=${bairro}` : ""}`}>
                   <Search className="h-5 w-5" /> Buscar
                 </Link>
               </Button>
