@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePropertyStore } from "@/contexts/PropertyStoreContext";
-import { Imovel, TipoImovel, Finalidade, bairros } from "@/data/properties";
+import { useImovel, useCreateImovel, useUpdateImovel, useUploadPhoto, generateNextCode } from "@/hooks/useImoveis";
+import type { TipoImovel, Finalidade } from "@/data/properties";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Upload, X } from "lucide-react";
+import { bairros } from "@/data/properties";
 
 const tipos: { value: TipoImovel; label: string }[] = [
   { value: "casa", label: "Casa" },
@@ -37,7 +38,7 @@ interface FormData {
   vagas: string;
   descricao: string;
   destaque: boolean;
-  status: "ativo" | "vendido" | "locado";
+  status: string;
   fotos: string[];
 }
 
@@ -51,37 +52,61 @@ export default function PropertyForm() {
   const { id } = useParams();
   const isEdit = !!id;
   const navigate = useNavigate();
-  const { properties, addProperty, updateProperty } = usePropertyStore();
+  const { data: existing, isLoading } = useImovel(id);
+  const createMutation = useCreateImovel();
+  const updateMutation = useUpdateImovel();
+  const uploadMutation = useUploadPhoto();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState<FormData>(emptyForm);
-  const [photoUrls, setPhotoUrls] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    if (isEdit) {
-      const p = properties.find((x) => x.id === id);
-      if (p) {
-        setForm({
-          titulo: p.titulo, tipo: p.tipo, finalidade: p.finalidade,
-          bairro: p.bairro, cidade: p.cidade, preco: String(p.preco),
-          metragem: String(p.metragem), quartos: String(p.quartos),
-          banheiros: String(p.banheiros), vagas: String(p.vagas),
-          descricao: p.descricao, destaque: p.destaque, status: p.status,
-          fotos: p.fotos,
-        });
-        setPhotoUrls(p.fotos.join("\n"));
-      }
+    if (isEdit && existing) {
+      setForm({
+        titulo: existing.titulo, tipo: existing.tipo as TipoImovel, finalidade: existing.finalidade as Finalidade,
+        bairro: existing.bairro, cidade: existing.cidade, preco: String(existing.preco),
+        metragem: String(existing.metragem || ""), quartos: String(existing.quartos || 0),
+        banheiros: String(existing.banheiros || 0), vagas: String(existing.vagas || 0),
+        descricao: existing.descricao || "", destaque: existing.destaque || false,
+        status: existing.status || "ativo", fotos: existing.fotos || [],
+      });
     }
-  }, [id, isEdit, properties]);
+  }, [isEdit, existing]);
 
   const set = (key: keyof FormData, value: any) => setForm((f) => ({ ...f, [key]: value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (form.fotos.length + files.length > 10) {
+      toast.error("Máximo de 10 fotos.");
+      return;
+    }
+    setUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of files) {
+        const url = await uploadMutation.mutateAsync(file);
+        urls.push(url);
+      }
+      setForm((f) => ({ ...f, fotos: [...f.fotos, ...urls] }));
+      toast.success(`${urls.length} foto(s) enviada(s).`);
+    } catch {
+      toast.error("Erro ao enviar foto.");
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removePhoto = (index: number) => {
+    setForm((f) => ({ ...f, fotos: f.fotos.filter((_, i) => i !== index) }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.titulo || !form.bairro || !form.preco) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
     }
-
-    const photos = photoUrls.split("\n").map((u) => u.trim()).filter(Boolean);
 
     const data = {
       titulo: form.titulo, tipo: form.tipo, finalidade: form.finalidade,
@@ -92,34 +117,38 @@ export default function PropertyForm() {
       banheiros: parseInt(form.banheiros) || 0,
       vagas: parseInt(form.vagas) || 0,
       descricao: form.descricao, destaque: form.destaque,
-      status: form.status, fotos: photos, tags: form.destaque ? ["Destaque" as const] : [],
+      status: form.status, fotos: form.fotos,
+      tags: form.destaque ? ["Destaque"] : [],
     };
 
-    if (isEdit) {
-      updateProperty(id!, data);
-      toast.success("Imóvel atualizado com sucesso!");
-    } else {
-      addProperty(data);
-      toast.success("Imóvel cadastrado com sucesso!");
+    try {
+      if (isEdit) {
+        await updateMutation.mutateAsync({ id: id!, ...data });
+        toast.success("Imóvel atualizado com sucesso!");
+      } else {
+        const codigo = await generateNextCode();
+        await createMutation.mutateAsync({ ...data, codigo });
+        toast.success("Imóvel cadastrado com sucesso!");
+      }
+      navigate("/admin/imoveis");
+    } catch {
+      toast.error("Erro ao salvar imóvel.");
     }
-    navigate("/admin/imoveis");
   };
+
+  if (isEdit && isLoading) {
+    return <div className="text-center py-12 text-muted-foreground">Carregando...</div>;
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/imoveis")}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <h1 className="text-2xl font-bold text-[hsl(var(--nova-purple))]">
-          {isEdit ? "Editar Imóvel" : "Cadastrar Novo Imóvel"}
-        </h1>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/imoveis")}><ArrowLeft className="w-5 h-5" /></Button>
+        <h1 className="text-2xl font-bold text-[hsl(var(--nova-purple))]">{isEdit ? "Editar Imóvel" : "Cadastrar Novo Imóvel"}</h1>
       </div>
 
       <Card className="border shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg">Informações do Imóvel</CardTitle>
-        </CardHeader>
+        <CardHeader><CardTitle className="text-lg">Informações do Imóvel</CardTitle></CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
@@ -132,18 +161,14 @@ export default function PropertyForm() {
                 <Label>Tipo *</Label>
                 <Select value={form.tipo} onValueChange={(v) => set("tipo", v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {tipos.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
-                  </SelectContent>
+                  <SelectContent>{tipos.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Finalidade *</Label>
                 <Select value={form.finalidade} onValueChange={(v) => set("finalidade", v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {finalidades.map((f) => <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>)}
-                  </SelectContent>
+                  <SelectContent>{finalidades.map((f) => <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
             </div>
@@ -153,9 +178,7 @@ export default function PropertyForm() {
                 <Label>Bairro *</Label>
                 <Select value={form.bairro} onValueChange={(v) => set("bairro", v)}>
                   <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
-                  <SelectContent>
-                    {bairros.map((b) => <SelectItem key={b} value={b}>{b}</SelectItem>)}
-                  </SelectContent>
+                  <SelectContent>{bairros.map((b) => <SelectItem key={b} value={b}>{b}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
@@ -165,29 +188,14 @@ export default function PropertyForm() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label>Preço (R$) *</Label>
-                <Input type="number" value={form.preco} onChange={(e) => set("preco", e.target.value)} required />
-              </div>
-              <div className="space-y-2">
-                <Label>Metragem (m²)</Label>
-                <Input type="number" value={form.metragem} onChange={(e) => set("metragem", e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label>Quartos</Label>
-                <Input type="number" value={form.quartos} onChange={(e) => set("quartos", e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label>Banheiros</Label>
-                <Input type="number" value={form.banheiros} onChange={(e) => set("banheiros", e.target.value)} />
-              </div>
+              <div className="space-y-2"><Label>Preço (R$) *</Label><Input type="number" value={form.preco} onChange={(e) => set("preco", e.target.value)} required /></div>
+              <div className="space-y-2"><Label>Metragem (m²)</Label><Input type="number" value={form.metragem} onChange={(e) => set("metragem", e.target.value)} /></div>
+              <div className="space-y-2"><Label>Quartos</Label><Input type="number" value={form.quartos} onChange={(e) => set("quartos", e.target.value)} /></div>
+              <div className="space-y-2"><Label>Banheiros</Label><Input type="number" value={form.banheiros} onChange={(e) => set("banheiros", e.target.value)} /></div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Vagas</Label>
-                <Input type="number" value={form.vagas} onChange={(e) => set("vagas", e.target.value)} />
-              </div>
+              <div className="space-y-2"><Label>Vagas</Label><Input type="number" value={form.vagas} onChange={(e) => set("vagas", e.target.value)} /></div>
             </div>
 
             <div className="space-y-2">
@@ -195,36 +203,40 @@ export default function PropertyForm() {
               <Textarea value={form.descricao} onChange={(e) => set("descricao", e.target.value)} rows={4} placeholder="Descreva o imóvel..." />
             </div>
 
-            <div className="space-y-2">
-              <Label>URLs das Fotos (uma por linha, máx. 10)</Label>
-              <Textarea
-                value={photoUrls}
-                onChange={(e) => setPhotoUrls(e.target.value)}
-                rows={3}
-                placeholder="https://exemplo.com/foto1.jpg&#10;https://exemplo.com/foto2.jpg"
-              />
-              <p className="text-xs text-muted-foreground">Cole as URLs das imagens, uma por linha.</p>
+            {/* Photo upload */}
+            <div className="space-y-3">
+              <Label>Fotos (máx. 10)</Label>
+              <div className="flex flex-wrap gap-3">
+                {form.fotos.map((url, i) => (
+                  <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border">
+                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <button type="button" onClick={() => removePhoto(i)} className="absolute top-1 right-1 h-5 w-5 rounded-full bg-destructive text-white flex items-center justify-center">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                ))}
+                {form.fotos.length < 10 && (
+                  <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
+                    className="w-24 h-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
+                    <Upload className="w-5 h-5 mb-1" />
+                    <span className="text-xs">{uploading ? "Enviando..." : "Adicionar"}</span>
+                  </button>
+                )}
+              </div>
+              <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" onChange={handleFileUpload} />
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6">
-              <div className="flex items-center gap-3">
-                <Switch checked={form.destaque} onCheckedChange={(v) => set("destaque", v)} />
-                <Label>Imóvel em destaque</Label>
-              </div>
-              <div className="flex items-center gap-3">
-                <Switch checked={form.status === "ativo"} onCheckedChange={(v) => set("status", v ? "ativo" : "vendido")} />
-                <Label>Ativo</Label>
-              </div>
+              <div className="flex items-center gap-3"><Switch checked={form.destaque} onCheckedChange={(v) => set("destaque", v)} /><Label>Imóvel em destaque</Label></div>
+              <div className="flex items-center gap-3"><Switch checked={form.status === "ativo"} onCheckedChange={(v) => set("status", v ? "ativo" : "vendido")} /><Label>Ativo</Label></div>
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button type="submit" className="bg-[hsl(var(--nova-orange))] hover:bg-[hsl(var(--nova-orange))]/90 text-white">
+              <Button type="submit" className="bg-[hsl(var(--nova-orange))] hover:bg-[hsl(var(--nova-orange))]/90 text-white" disabled={createMutation.isPending || updateMutation.isPending}>
                 <Save className="w-4 h-4 mr-2" />
                 {isEdit ? "Salvar Alterações" : "Cadastrar Imóvel"}
               </Button>
-              <Button type="button" variant="outline" onClick={() => navigate("/admin/imoveis")}>
-                Cancelar
-              </Button>
+              <Button type="button" variant="outline" onClick={() => navigate("/admin/imoveis")}>Cancelar</Button>
             </div>
           </form>
         </CardContent>
