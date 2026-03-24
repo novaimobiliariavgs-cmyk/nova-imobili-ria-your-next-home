@@ -8,14 +8,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">N</span>
-              </div>
-              <div className="leading-none">
-                <span className="font-bold text-white text-lg">Nova</span>
-                <span className="block text-xs text-on-primary-dark-muted -mt-0.5">Imobiliária</span>
-              </div>
+            <div className="mb-4">
+              <img src="/logo.png" alt="Nova Imobiliária" className="h-10 w-auto object-contain brightness-0 invert" />
             </div>
             <p className="text-on-primary-dark-muted text-sm leading-relaxed max-w-xs">
               Imobiliária com segurança jurídica em Vargem Grande do Sul/SP. Compra, venda e locação de imóveis com transparência.
