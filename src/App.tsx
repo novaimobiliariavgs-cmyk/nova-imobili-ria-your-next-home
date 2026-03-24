@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Header } from "@/components/Header";
@@ -22,6 +23,14 @@ import AdminLeads from "./pages/admin/AdminLeads";
 import ResetPassword from "./pages/admin/ResetPassword";
 
 const queryClient = new QueryClient();
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  }, [pathname]);
+  return null;
+}
 
 function PublicLayout() {
   return (
@@ -50,6 +59,7 @@ const App = () => (
       <Sonner />
       <AdminAuthProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/redefinir-senha" element={<ResetPassword />} />
