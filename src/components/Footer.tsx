@@ -8,14 +8,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">N</span>
-              </div>
-              <div className="leading-none">
-                <span className="font-bold text-white text-lg">Nova</span>
-                <span className="block text-xs text-on-primary-dark-muted -mt-0.5">Imobiliária</span>
-              </div>
+            <div className="mb-4">
+              <img src="/logo.png" alt="Nova Imobiliária" className="h-10 w-auto object-contain brightness-0 invert" />
             </div>
             <p className="text-on-primary-dark-muted text-sm leading-relaxed max-w-xs">
               Imobiliária com segurança jurídica em Vargem Grande do Sul/SP. Compra, venda e locação de imóveis com transparência.
@@ -49,11 +43,11 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-on-primary-dark-muted">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>Rua Principal, 123 — Centro<br/>Vargem Grande do Sul/SP</span>
+                <span>R. Saldanha Marinho, 574 - Centro<br/>Vargem Grande do Sul/SP</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0" />
-                <span>(19) 99999-9999</span>
+                <span>(19) 99224-3434</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0" />
