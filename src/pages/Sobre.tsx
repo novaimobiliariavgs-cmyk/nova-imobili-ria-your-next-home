@@ -1,4 +1,4 @@
-import { Scale, Building2, Handshake, Users } from "lucide-react";
+import { Scale, Building2, Handshake } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const stats = [
