@@ -2,10 +2,8 @@ import { Scale, Building2, Handshake, Users } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const stats = [
-  { value: "120+", label: "Imóveis na carteira" },
-  { value: "8", label: "Anos de atuação" },
-  { value: "350+", label: "Negociações realizadas" },
-  { value: "98%", label: "Clientes satisfeitos" },
+  { value: "70+", label: "Imóveis na carteira" },
+  { value: "3", label: "Anos de atuação" },
 ];
 
 export default function SobrePage() {
