@@ -43,11 +43,11 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-on-primary-dark-muted">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>Rua Principal, 123 — Centro<br/>Vargem Grande do Sul/SP</span>
+                <span>R. Saldanha Marinho, 574 - Centro<br/>Vargem Grande do Sul/SP</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0" />
-                <span>(19) 99999-9999</span>
+                <span>(19) 99224-3434</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0" />

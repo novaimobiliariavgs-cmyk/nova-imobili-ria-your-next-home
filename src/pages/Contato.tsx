@@ -63,7 +63,7 @@ export default function ContatoPage() {
                   <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" /> Falar no WhatsApp</a>
                 </Button>
                 <div className="aspect-video rounded-xl bg-muted overflow-hidden mt-4">
-                  <iframe title="Localização" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29608.71817073!2d-46.90!3d-21.83!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b9e0a0a0a0a0a0%3A0x0!2sVargem%20Grande%20do%20Sul!5e0!3m2!1spt-BR!2sbr!4v1" width="100%" height="100%" style={{ border: 0 }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                  <iframe title="Localização" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3700.0!2d-46.8953!3d-21.8347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b9e5a0a0a0a0a0%3A0x0!2sR.%20Saldanha%20Marinho%2C%20574%20-%20Centro%2C%20Vargem%20Grande%20do%20Sul!5e0!3m2!1spt-BR!2sbr!4v1" width="100%" height="100%" style={{ border: 0 }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
                 </div>
               </div>
             </ScrollReveal>

@@ -70,26 +70,6 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* Responsável */}
-      <section className="section-padding bg-background">
-        <div className="container max-w-3xl">
-          <ScrollReveal>
-            <h2 className="text-2xl font-bold text-foreground mb-6">Quem está por trás</h2>
-            <div className="flex flex-col md:flex-row gap-6 items-start">
-              <div className="h-32 w-32 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                <Users className="h-12 w-12 text-primary/40" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground">Dr. João Silva</h3>
-                <p className="text-sm text-accent font-medium mb-3">Advogado · CRECI 12345 · OAB/SP 67890</p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Advogado com mais de 10 anos de experiência em direito imobiliário, especializado em contratos de compra, venda e locação. Fundador da Nova Imobiliária, une conhecimento jurídico à paixão pelo mercado imobiliário para oferecer o melhor serviço à região.
-                </p>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
     </div>
   );
 }
