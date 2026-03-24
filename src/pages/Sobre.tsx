@@ -58,7 +58,7 @@ export default function SobrePage() {
       <section className="section-padding bg-primary-dark">
         <div className="container">
           <ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 gap-8 max-w-md mx-auto">
               {stats.map((s) => (
                 <div key={s.label} className="text-center">
                   <p className="text-4xl md:text-5xl font-extrabold text-accent">{s.value}</p>
