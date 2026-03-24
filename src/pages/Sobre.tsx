@@ -46,7 +46,7 @@ export default function SobrePage() {
               <div>
                 <h3 className="text-xl font-bold text-foreground mb-2">Diferencial Jurídico</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Nossa imobiliária é gerenciada por advogado especializado em direito imobiliário. Isso significa que toda documentação, contrato e negociação passa por análise jurídica rigorosa, protegendo seu patrimônio e garantindo tranquilidade em cada transação.
+                  A Nova Imobiliária é gerenciada por um escritório de advocacia com conhecimento especializado em direito imobiliário. Isso significa que toda documentação, contrato e negociação passa por análise jurídica rigorosa, protegendo seu patrimônio e garantindo tranquilidade em cada transação.
                 </p>
               </div>
             </div>
