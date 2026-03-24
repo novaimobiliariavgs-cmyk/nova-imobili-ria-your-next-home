@@ -10,7 +10,7 @@ const info = [
   { icon: MapPin, label: "Endereço", value: "R. Saldanha Marinho, 574 - Centro, Vargem Grande do Sul - SP, 13880-000" },
   { icon: Phone, label: "Telefone", value: "(19) 99224-3434" },
   { icon: Mail, label: "E-mail", value: "novaimobiliariavgs@gmail.com" },
-  { icon: Clock, label: "Horário", value: "Seg a Sex: 8h às 18h · Sáb: 8h às 12h" },
+  { icon: Clock, label: "Horário", value: "Seg a Sex: 8h às 17h" },
 ];
 
 export default function ContatoPage() {
