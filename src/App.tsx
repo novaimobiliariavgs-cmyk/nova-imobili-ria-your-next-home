@@ -59,6 +59,7 @@ const App = () => (
       <Sonner />
       <AdminAuthProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/redefinir-senha" element={<ResetPassword />} />
