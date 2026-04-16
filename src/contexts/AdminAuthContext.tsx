@@ -1,23 +1,44 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import type { User } from "@supabase/supabase-js";
+
+const ADMIN_EMAIL = "novaimobiliariavgs@gmail.com";
+const ADMIN_PASSWORD = "Nova@2026";
+const STORAGE_KEY = "nova_admin_session";
+const INACTIVITY_TIMEOUT = 8 * 60 * 60 * 1000; // 8 hours
+
+interface AdminUser {
+  email: string;
+}
 
 interface AdminAuth {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: User | null;
+  user: AdminUser | null;
   login: (email: string, password: string) => Promise<{ error?: string }>;
   logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuth | null>(null);
 
-const INACTIVITY_TIMEOUT = 8 * 60 * 60 * 1000; // 8 hours
-
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const lastActivityRef = useRef(Date.now());
+
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { email: string };
+        if (parsed?.email === ADMIN_EMAIL) {
+          setUser({ email: parsed.email });
+        }
+      }
+    } catch {
+      // ignore
+    }
+    setIsLoading(false);
+  }, []);
 
   // Track user activity
   const resetActivity = useCallback(() => {
@@ -33,38 +54,30 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   // Check inactivity
   useEffect(() => {
     if (!user) return;
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
       if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
-        await supabase.auth.signOut();
+        localStorage.removeItem(STORAGE_KEY);
+        setUser(null);
       }
     }, 60_000);
     return () => clearInterval(interval);
   }, [user]);
 
-  // Listen to auth state
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
   const login = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return { error: error.message };
-    resetActivity();
-    return {};
+    const normalized = email.trim().toLowerCase();
+    if (normalized === ADMIN_EMAIL.toLowerCase() && password === ADMIN_PASSWORD) {
+      const session = { email: ADMIN_EMAIL };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+      setUser(session);
+      resetActivity();
+      return {};
+    }
+    return { error: "E-mail ou senha incorretos." };
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem(STORAGE_KEY);
+    setUser(null);
   };
 
   return (
