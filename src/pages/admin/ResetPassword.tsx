@@ -42,7 +42,7 @@ export default function ResetPassword() {
       toast.error("Erro ao redefinir senha. Tente novamente.");
     } else {
       toast.success("Senha redefinida com sucesso!");
-      navigate("/admin/dashboard", { replace: true });
+      navigate("/admin", { replace: true });
     }
   };
 
@@ -71,7 +71,7 @@ export default function ResetPassword() {
                 <Input id="confirm-password" type="password" placeholder="Repita a senha" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength={6} />
               </div>
               <Button type="submit" className="w-full bg-[hsl(var(--nova-purple))] hover:bg-[hsl(var(--nova-purple))]/90 text-white" disabled={loading}>
-                {loading ? "Salvando..." : "Redefinir senha"}
+                {loading ? "Salvando..." : "Salvar nova senha"}
               </Button>
             </form>
           )}
