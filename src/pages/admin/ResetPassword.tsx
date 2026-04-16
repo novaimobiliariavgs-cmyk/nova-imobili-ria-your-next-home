@@ -42,7 +42,7 @@ export default function ResetPassword() {
       toast.error("Erro ao redefinir senha. Tente novamente.");
     } else {
       toast.success("Senha redefinida com sucesso!");
-      navigate("/admin/dashboard", { replace: true });
+      navigate("/admin", { replace: true });
     }
   };
 
