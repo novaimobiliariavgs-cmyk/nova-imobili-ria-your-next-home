@@ -71,6 +71,7 @@ const App = () => (
       <AdminAuthProvider>
         <BrowserRouter>
           <ScrollToTop />
+          <RecoveryRedirect />
           <Routes>
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/redefinir-senha" element={<ResetPassword />} />
