@@ -32,6 +32,17 @@ function ScrollToTop() {
   return null;
 }
 
+function RecoveryRedirect() {
+  const location = useLocation();
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes("type=recovery") && location.pathname !== "/admin/redefinir-senha") {
+      window.location.replace(`/admin/redefinir-senha${hash}`);
+    }
+  }, [location.pathname]);
+  return null;
+}
+
 function PublicLayout() {
   return (
     <>
