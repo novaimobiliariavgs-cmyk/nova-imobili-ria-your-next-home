@@ -10,7 +10,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Upload, X, Star } from "lucide-react";
+import { ArrowLeft, Save, Upload, X, Star, GripVertical } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+  useSortable,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 
 const tipos: { value: TipoImovel; label: string }[] = [
@@ -48,6 +65,71 @@ const emptyForm: FormData = {
   descricao: "", destaque: false, status: "ativo", fotos: [],
 };
 
+interface SortablePhotoProps {
+  url: string;
+  index: number;
+  isCover: boolean;
+  onRemove: () => void;
+  onSetCover: () => void;
+}
+
+function SortablePhoto({ url, index, isCover, onRemove, onSetCover }: SortablePhotoProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: url });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+    boxShadow: isDragging ? "0 10px 25px -5px rgba(0,0,0,0.3)" : undefined,
+    zIndex: isDragging ? 50 : "auto" as const,
+  };
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-colors touch-none ${
+        isCover ? "border-[hsl(var(--nova-orange))]" : "border-border"
+      }`}
+    >
+      <img src={url} alt="" className="w-full h-full object-cover pointer-events-none" draggable={false} />
+      {isCover && (
+        <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-[hsl(var(--nova-orange))] text-white text-[10px] font-semibold leading-none">
+          Capa
+        </span>
+      )}
+      <button
+        type="button"
+        onClick={onSetCover}
+        disabled={isCover}
+        title={isCover ? "Foto de capa" : "Definir como capa"}
+        className={`absolute top-1 left-1 h-5 w-5 rounded-full flex items-center justify-center transition-colors ${
+          isCover
+            ? "bg-[hsl(var(--nova-orange))] text-white cursor-default"
+            : "bg-white/90 text-muted-foreground hover:text-[hsl(var(--nova-orange))]"
+        }`}
+      >
+        <Star className={`w-3 h-3 ${isCover ? "fill-current" : ""}`} />
+      </button>
+      <button
+        type="button"
+        onClick={onRemove}
+        title="Remover foto"
+        className="absolute top-1 right-1 h-5 w-5 rounded-full bg-destructive text-white flex items-center justify-center"
+      >
+        <X className="w-3 h-3" />
+      </button>
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        title="Arrastar para reordenar"
+        className="absolute bottom-1 right-1 h-5 w-5 rounded-full bg-black/60 text-white flex items-center justify-center cursor-grab active:cursor-grabbing"
+      >
+        <GripVertical className="w-3 h-3" />
+      </button>
+    </div>
+  );
+}
+
 export default function PropertyForm() {
   const { id } = useParams();
   const isEdit = !!id;
@@ -59,6 +141,22 @@ export default function PropertyForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState<FormData>(emptyForm);
   const [uploading, setUploading] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    setForm((f) => {
+      const oldIndex = f.fotos.indexOf(active.id as string);
+      const newIndex = f.fotos.indexOf(over.id as string);
+      if (oldIndex === -1 || newIndex === -1) return f;
+      return { ...f, fotos: arrayMove(f.fotos, oldIndex, newIndex) };
+    });
+  };
 
   useEffect(() => {
     if (isEdit && existing) {
@@ -214,55 +312,30 @@ export default function PropertyForm() {
             {/* Photo upload */}
             <div className="space-y-3">
               <Label>Fotos (máx. 10)</Label>
-              <p className="text-xs text-muted-foreground">Clique na estrela para definir a foto de capa. A capa aparece primeiro no anúncio.</p>
-              <div className="flex flex-wrap gap-3">
-                {form.fotos.map((url, i) => {
-                  const isCover = i === 0;
-                  return (
-                    <div
-                      key={url + i}
-                      className={`relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-colors ${
-                        isCover ? "border-[hsl(var(--nova-orange))]" : "border-border"
-                      }`}
-                    >
-                      <img src={url} alt="" className="w-full h-full object-cover" />
-                      {isCover && (
-                        <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-[hsl(var(--nova-orange))] text-white text-[10px] font-semibold leading-none">
-                          Capa
-                        </span>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => setAsCover(i)}
-                        disabled={isCover}
-                        title={isCover ? "Foto de capa" : "Definir como capa"}
-                        className={`absolute top-1 left-1 h-5 w-5 rounded-full flex items-center justify-center transition-colors ${
-                          isCover
-                            ? "bg-[hsl(var(--nova-orange))] text-white cursor-default"
-                            : "bg-white/90 text-muted-foreground hover:text-[hsl(var(--nova-orange))]"
-                        }`}
-                      >
-                        <Star className={`w-3 h-3 ${isCover ? "fill-current" : ""}`} />
+              <p className="text-xs text-muted-foreground">Arraste pelo ícone <GripVertical className="inline w-3 h-3" /> para reordenar. Clique na estrela para definir a capa — a primeira foto é sempre a capa.</p>
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                <SortableContext items={form.fotos} strategy={rectSortingStrategy}>
+                  <div className="flex flex-wrap gap-3">
+                    {form.fotos.map((url, i) => (
+                      <SortablePhoto
+                        key={url}
+                        url={url}
+                        index={i}
+                        isCover={i === 0}
+                        onRemove={() => removePhoto(i)}
+                        onSetCover={() => setAsCover(i)}
+                      />
+                    ))}
+                    {form.fotos.length < 10 && (
+                      <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
+                        className="w-24 h-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
+                        <Upload className="w-5 h-5 mb-1" />
+                        <span className="text-xs">{uploading ? "Enviando..." : "Adicionar"}</span>
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(i)}
-                        title="Remover foto"
-                        className="absolute top-1 right-1 h-5 w-5 rounded-full bg-destructive text-white flex items-center justify-center"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  );
-                })}
-                {form.fotos.length < 10 && (
-                  <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
-                    className="w-24 h-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
-                    <Upload className="w-5 h-5 mb-1" />
-                    <span className="text-xs">{uploading ? "Enviando..." : "Adicionar"}</span>
-                  </button>
-                )}
-              </div>
+                    )}
+                  </div>
+                </SortableContext>
+              </DndContext>
               <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" onChange={handleFileUpload} />
             </div>
 
