@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Upload, X } from "lucide-react";
+import { ArrowLeft, Save, Upload, X, Star } from "lucide-react";
 
 
 const tipos: { value: TipoImovel; label: string }[] = [
@@ -99,6 +99,17 @@ export default function PropertyForm() {
 
   const removePhoto = (index: number) => {
     setForm((f) => ({ ...f, fotos: f.fotos.filter((_, i) => i !== index) }));
+  };
+
+  const setAsCover = (index: number) => {
+    setForm((f) => {
+      if (index === 0 || index >= f.fotos.length) return f;
+      const next = [...f.fotos];
+      const [picked] = next.splice(index, 1);
+      next.unshift(picked);
+      return { ...f, fotos: next };
+    });
+    toast.success("Foto definida como capa.");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -203,15 +214,47 @@ export default function PropertyForm() {
             {/* Photo upload */}
             <div className="space-y-3">
               <Label>Fotos (máx. 10)</Label>
+              <p className="text-xs text-muted-foreground">Clique na estrela para definir a foto de capa. A capa aparece primeiro no anúncio.</p>
               <div className="flex flex-wrap gap-3">
-                {form.fotos.map((url, i) => (
-                  <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border">
-                    <img src={url} alt="" className="w-full h-full object-cover" />
-                    <button type="button" onClick={() => removePhoto(i)} className="absolute top-1 right-1 h-5 w-5 rounded-full bg-destructive text-white flex items-center justify-center">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                ))}
+                {form.fotos.map((url, i) => {
+                  const isCover = i === 0;
+                  return (
+                    <div
+                      key={url + i}
+                      className={`relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-colors ${
+                        isCover ? "border-[hsl(var(--nova-orange))]" : "border-border"
+                      }`}
+                    >
+                      <img src={url} alt="" className="w-full h-full object-cover" />
+                      {isCover && (
+                        <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-[hsl(var(--nova-orange))] text-white text-[10px] font-semibold leading-none">
+                          Capa
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setAsCover(i)}
+                        disabled={isCover}
+                        title={isCover ? "Foto de capa" : "Definir como capa"}
+                        className={`absolute top-1 left-1 h-5 w-5 rounded-full flex items-center justify-center transition-colors ${
+                          isCover
+                            ? "bg-[hsl(var(--nova-orange))] text-white cursor-default"
+                            : "bg-white/90 text-muted-foreground hover:text-[hsl(var(--nova-orange))]"
+                        }`}
+                      >
+                        <Star className={`w-3 h-3 ${isCover ? "fill-current" : ""}`} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(i)}
+                        title="Remover foto"
+                        className="absolute top-1 right-1 h-5 w-5 rounded-full bg-destructive text-white flex items-center justify-center"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  );
+                })}
                 {form.fotos.length < 10 && (
                   <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
                     className="w-24 h-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
