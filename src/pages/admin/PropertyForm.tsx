@@ -65,6 +65,71 @@ const emptyForm: FormData = {
   descricao: "", destaque: false, status: "ativo", fotos: [],
 };
 
+interface SortablePhotoProps {
+  url: string;
+  index: number;
+  isCover: boolean;
+  onRemove: () => void;
+  onSetCover: () => void;
+}
+
+function SortablePhoto({ url, index, isCover, onRemove, onSetCover }: SortablePhotoProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: url });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+    boxShadow: isDragging ? "0 10px 25px -5px rgba(0,0,0,0.3)" : undefined,
+    zIndex: isDragging ? 50 : "auto" as const,
+  };
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-colors touch-none ${
+        isCover ? "border-[hsl(var(--nova-orange))]" : "border-border"
+      }`}
+    >
+      <img src={url} alt="" className="w-full h-full object-cover pointer-events-none" draggable={false} />
+      {isCover && (
+        <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-[hsl(var(--nova-orange))] text-white text-[10px] font-semibold leading-none">
+          Capa
+        </span>
+      )}
+      <button
+        type="button"
+        onClick={onSetCover}
+        disabled={isCover}
+        title={isCover ? "Foto de capa" : "Definir como capa"}
+        className={`absolute top-1 left-1 h-5 w-5 rounded-full flex items-center justify-center transition-colors ${
+          isCover
+            ? "bg-[hsl(var(--nova-orange))] text-white cursor-default"
+            : "bg-white/90 text-muted-foreground hover:text-[hsl(var(--nova-orange))]"
+        }`}
+      >
+        <Star className={`w-3 h-3 ${isCover ? "fill-current" : ""}`} />
+      </button>
+      <button
+        type="button"
+        onClick={onRemove}
+        title="Remover foto"
+        className="absolute top-1 right-1 h-5 w-5 rounded-full bg-destructive text-white flex items-center justify-center"
+      >
+        <X className="w-3 h-3" />
+      </button>
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        title="Arrastar para reordenar"
+        className="absolute bottom-1 right-1 h-5 w-5 rounded-full bg-black/60 text-white flex items-center justify-center cursor-grab active:cursor-grabbing"
+      >
+        <GripVertical className="w-3 h-3" />
+      </button>
+    </div>
+  );
+}
+
 export default function PropertyForm() {
   const { id } = useParams();
   const isEdit = !!id;
