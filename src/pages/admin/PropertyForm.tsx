@@ -142,6 +142,22 @@ export default function PropertyForm() {
   const [form, setForm] = useState<FormData>(emptyForm);
   const [uploading, setUploading] = useState(false);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    setForm((f) => {
+      const oldIndex = f.fotos.indexOf(active.id as string);
+      const newIndex = f.fotos.indexOf(over.id as string);
+      if (oldIndex === -1 || newIndex === -1) return f;
+      return { ...f, fotos: arrayMove(f.fotos, oldIndex, newIndex) };
+    });
+  };
+
   useEffect(() => {
     if (isEdit && existing) {
       setForm({
