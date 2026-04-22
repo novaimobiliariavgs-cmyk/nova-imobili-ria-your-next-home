@@ -28,8 +28,8 @@ function PhotoGallery({ fotos, titulo }: { fotos: string[]; titulo: string }) {
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-video rounded-xl bg-muted overflow-hidden group">
-        <img src={fotos[current]} alt={`${titulo} - Foto ${current + 1}`} className="w-full h-full object-cover" />
+      <div className="relative aspect-video rounded-xl bg-black overflow-hidden group">
+        <img src={fotos[current]} alt={`${titulo} - Foto ${current + 1}`} className="w-full h-full object-contain" />
         
         {total > 1 && (
           <>
