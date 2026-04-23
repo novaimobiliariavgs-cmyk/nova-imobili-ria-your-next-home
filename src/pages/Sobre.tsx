@@ -24,13 +24,13 @@ export default function SobrePage() {
             <h2 className="text-2xl font-bold text-foreground mb-4">Nossa História</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                A Nova Imobiliária nasceu em 2023 com o objetivo de transformar a experiência de compra, venda e locação de imóveis na região de Vargem Grande do Sul.
+                A Nova Imobiliária nasceu em janeiro de 2023, em Vargem Grande do Sul, a partir da parceria entre profissionais das áreas jurídica e imobiliária que já atuavam na região e identificaram a necessidade de um serviço mais completo e seguro. A união entre advocacia e corretagem foi o ponto de partida para a criação de uma empresa com visão estratégica e foco em soluções.
               </p>
               <p>
-                Desde o início, nosso compromisso é oferecer segurança e transparência em cada negociação, garantindo que compradores, vendedores e locatários tenham seus interesses protegidos em todas as etapas do processo.
+                Desde o início, a proposta foi oferecer muito mais do que a simples intermediação de imóveis, trazendo segurança jurídica para cada negociação e garantindo maior tranquilidade para proprietários, compradores e locatários. A experiência acumulada ao longo de anos de atuação permitiu estruturar um modelo de atendimento eficiente, transparente e confiável.
               </p>
               <p>
-                Com atuação sólida na região, construímos uma reputação baseada na ética, agilidade e resultados concretos para nossos clientes.
+                Hoje, a Nova Imobiliária atua na venda, locação e administração de imóveis residenciais, comerciais e terrenos, além de oferecer assessoria completa em contratos, avaliações e demais demandas imobiliárias. Com forte presença local, seguimos construindo nossa trajetória com base na ética, agilidade e compromisso com resultados.
               </p>
             </div>
           </ScrollReveal>
