@@ -157,9 +157,25 @@ export async function generateNextCode(): Promise<string> {
 export function useUploadPhoto() {
   return useMutation({
     mutationFn: async (file: File) => {
-      const ext = file.name.split(".").pop();
-      const path = `${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from("imoveis-fotos").upload(path, file);
+      const fileName = file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const originalExt = fileName.split(".").pop()?.toLowerCase();
+      const isPng = file.type === "image/png" || originalExt === "png";
+      const isJpeg = file.type === "image/jpeg" || file.type === "image/jpg" || originalExt === "jpg" || originalExt === "jpeg";
+
+      if (!isPng && !isJpeg) {
+        throw new Error("Formato de imagem não suportado. Use JPG ou PNG.");
+      }
+
+      const extension = isPng ? "png" : "jpg";
+      const contentType = isPng ? "image/png" : "image/jpeg";
+      const randomId = crypto.randomUUID().replace(/[^a-zA-Z0-9-]/g, "");
+      const path = `imoveis/${Date.now()}-${randomId}.${extension}`;
+
+      const { error } = await supabase.storage.from("imoveis-fotos").upload(path, file, {
+        contentType,
+        upsert: true,
+      });
+
       if (error) throw error;
       const { data: urlData } = supabase.storage.from("imoveis-fotos").getPublicUrl(path);
       return urlData.publicUrl;
