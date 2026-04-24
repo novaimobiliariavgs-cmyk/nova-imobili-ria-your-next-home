@@ -1,21 +1,27 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import type { User } from "@supabase/supabase-js";
+
+interface FixedUser {
+  email: string;
+}
 
 interface AdminAuth {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: User | null;
+  user: FixedUser | null;
   login: (email: string, password: string) => Promise<{ error?: string }>;
   logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuth | null>(null);
 
+// Fixed credentials — temporary solution while Supabase Auth is unavailable in production
+const FIXED_EMAIL = "novaimobiliariavgs@gmail.com";
+const FIXED_PASSWORD = "Nova@2026";
+const STORAGE_KEY = "nova_admin_session";
 const INACTIVITY_TIMEOUT = 8 * 60 * 60 * 1000; // 8 hours
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FixedUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const lastActivityRef = useRef(Date.now());
 
@@ -23,6 +29,23 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     lastActivityRef.current = Date.now();
   }, []);
 
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { email: string; loggedAt: number };
+        if (parsed?.email === FIXED_EMAIL) {
+          setUser({ email: parsed.email });
+        }
+      }
+    } catch {
+      // ignore
+    }
+    setIsLoading(false);
+  }, []);
+
+  // Track user activity for inactivity-based logout
   useEffect(() => {
     const events = ["mousedown", "keydown", "scroll", "touchstart"];
     events.forEach((e) => window.addEventListener(e, resetActivity));
@@ -31,37 +54,30 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!user) return;
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
       if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
-        await supabase.auth.signOut();
+        localStorage.removeItem(STORAGE_KEY);
+        setUser(null);
       }
     }, 60_000);
     return () => clearInterval(interval);
   }, [user]);
 
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
   const login = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return { error: error.message };
+    const normalizedEmail = email.trim().toLowerCase();
+    if (normalizedEmail !== FIXED_EMAIL || password !== FIXED_PASSWORD) {
+      return { error: "E-mail ou senha incorretos." };
+    }
+    const session = { email: FIXED_EMAIL, loggedAt: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    setUser({ email: FIXED_EMAIL });
     resetActivity();
     return {};
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem(STORAGE_KEY);
+    setUser(null);
   };
 
   return (
