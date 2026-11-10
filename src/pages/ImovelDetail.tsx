@@ -1,3 +1,4 @@
+import { useSEO } from "@/hooks/useSEO";
 import { useParams, Link } from "react-router-dom";
 import { Bed, Bath, Car, Maximize, MapPin, ArrowLeft, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,16 @@ export default function ImovelDetailPage() {
   const { data: allImoveis = [] } = useImoveis();
   const createLead = useCreateLead();
   const [form, setForm] = useState({ nome: "", telefone: "", email: "", mensagem: "" });
+
+  useSEO(
+    imovel
+      ? `${imovel.titulo} - ${imovel.bairro}, ${imovel.cidade} | Nova Imobiliária`
+      : "Imóvel | Nova Imobiliária",
+    imovel
+      ? `${imovel.finalidade === "aluguel" ? "Para alugar" : "À venda"}: ${imovel.titulo} em ${imovel.bairro}, ${imovel.cidade}. ${formatPrice(imovel.preco, imovel.finalidade)}. Código ${imovel.codigo}. Fale com a Nova Imobiliária pelo WhatsApp.`
+      : "Detalhes do imóvel na Nova Imobiliária, Vargem Grande do Sul/SP.",
+    id ? `/imovel/${id}` : undefined
+  );
 
   if (isLoading) {
     return <div className="pt-16 min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Carregando...</p></div>;

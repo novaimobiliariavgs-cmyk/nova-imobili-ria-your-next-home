@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Instagram, Star } from "lucide-react";
 
 export function Footer() {
   return (
@@ -52,6 +52,18 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0" />
                 <span>novaimobiliariavgs@gmail.com</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Clock className="h-4 w-4 shrink-0" />
+                <span>Seg a Sex: 8h às 17h</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Instagram className="h-4 w-4 shrink-0" />
+                <a href="https://www.instagram.com/nova.imobiliariaof/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">@nova.imobiliariaof</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Star className="h-4 w-4 shrink-0" />
+                <a href="https://search.google.com/local/writereview?placeid=ChIJf5_2SRcryJQRF4HOVYsNIe4" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Avalie-nos no Google</a>
               </li>
             </ul>
           </div>
