@@ -1,12 +1,14 @@
+import { useSEO } from "@/hooks/useSEO";
 import { Scale, Building2, Handshake } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const stats = [
-  { value: "70+", label: "Imóveis na carteira" },
+  { value: "95+", label: "Imóveis na carteira" },
   { value: "3", label: "Anos de atuação" },
 ];
 
 export default function SobrePage() {
+  useSEO("Sobre a Nova Imobiliária | Imobiliária em Vargem Grande do Sul", "Conheça a Nova Imobiliária: imobiliária local em Vargem Grande do Sul/SP, especializada em locação, venda e administração de imóveis.", "/sobre");
   return (
     <div className="pt-16">
       <div className="bg-primary-dark text-white section-padding">

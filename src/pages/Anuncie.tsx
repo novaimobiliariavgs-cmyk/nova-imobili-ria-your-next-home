@@ -1,3 +1,4 @@
+import { useSEO } from "@/hooks/useSEO";
 import { useState } from "react";
 import { ClipboardList, BarChart3, Megaphone, Handshake, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ const etapas = [
 ];
 
 export default function AnunciePage() {
+  useSEO("Anuncie seu imóvel para alugar ou vender | Nova Imobiliária", "Tem imóvel em Vargem Grande do Sul? A Nova Imobiliária anuncia, seleciona o inquilino, cuida do contrato, da vistoria, da cobrança e do repasse do aluguel.", "/anuncie");
   const createLead = useCreateLead();
   const [form, setForm] = useState({ nome: "", telefone: "", tipo: "", finalidade: "", bairro: "", mensagem: "" });
 

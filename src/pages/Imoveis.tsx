@@ -1,3 +1,4 @@
+import { useSEO } from "@/hooks/useSEO";
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
@@ -27,6 +28,20 @@ export default function ImoveisPage() {
     search: codigo || undefined,
     sort,
   });
+
+  useSEO(
+    finalidade === "aluguel"
+      ? "Imóveis para alugar em Vargem Grande do Sul | Nova Imobiliária"
+      : finalidade === "venda"
+        ? "Imóveis à venda em Vargem Grande do Sul | Nova Imobiliária"
+        : "Imóveis em Vargem Grande do Sul | Nova Imobiliária",
+    finalidade === "aluguel"
+      ? "Casas, apartamentos e salas comerciais para alugar em Vargem Grande do Sul/SP. Veja fotos, valores e agende sua visita pelo WhatsApp."
+      : finalidade === "venda"
+        ? "Casas, apartamentos, terrenos e imóveis comerciais à venda em Vargem Grande do Sul/SP. Veja fotos, valores e agende sua visita."
+        : "Imóveis para alugar e comprar em Vargem Grande do Sul/SP: casas, apartamentos, terrenos e imóveis comerciais.",
+    finalidade ? `/imoveis?finalidade=${finalidade}` : "/imoveis"
+  );
 
   const setFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
