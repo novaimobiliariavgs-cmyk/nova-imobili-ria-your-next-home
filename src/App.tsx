@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Imoveis from "./pages/Imoveis";
 import ImovelDetail from "./pages/ImovelDetail";
 import Anuncie from "./pages/Anuncie";
+import Avaliacao from "./pages/Avaliacao";
 import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
@@ -53,6 +54,7 @@ function PublicLayout() {
           <Route path="/imoveis" element={<Imoveis />} />
           <Route path="/imovel/:id" element={<ImovelDetail />} />
           <Route path="/anuncie" element={<Anuncie />} />
+          <Route path="/avaliacao" element={<Avaliacao />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="*" element={<NotFound />} />

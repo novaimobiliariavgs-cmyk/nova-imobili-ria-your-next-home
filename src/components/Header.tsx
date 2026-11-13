@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Início", path: "/" },
   { label: "Imóveis", path: "/imoveis" },
   { label: "Anuncie", path: "/anuncie" },
+  { label: "Avaliação", path: "/avaliacao" },
   { label: "Sobre", path: "/sobre" },
   { label: "Contato", path: "/contato" },
 ];
