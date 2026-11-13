@@ -12,6 +12,9 @@ import Imoveis from "./pages/Imoveis";
 import ImovelDetail from "./pages/ImovelDetail";
 import Anuncie from "./pages/Anuncie";
 import Avaliacao from "./pages/Avaliacao";
+import AvaliacaoInventario from "./pages/AvaliacaoInventario";
+import AvaliacaoAluguel from "./pages/AvaliacaoAluguel";
+import AvaliacaoRegiao from "./pages/AvaliacaoRegiao";
 import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
@@ -55,6 +58,9 @@ function PublicLayout() {
           <Route path="/imovel/:id" element={<ImovelDetail />} />
           <Route path="/anuncie" element={<Anuncie />} />
           <Route path="/avaliacao" element={<Avaliacao />} />
+          <Route path="/avaliacao/inventario-e-partilha" element={<AvaliacaoInventario />} />
+          <Route path="/avaliacao/valor-de-aluguel" element={<AvaliacaoAluguel />} />
+          <Route path="/avaliacao/regiao" element={<AvaliacaoRegiao />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="*" element={<NotFound />} />

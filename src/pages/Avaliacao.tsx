@@ -1,5 +1,6 @@
 import { useSEO } from "@/hooks/useSEO";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ScrollText, Users, Gavel, KeyRound, Receipt, Handshake, Landmark, Building2,
   Zap, MapPin, FileCheck, MessageCircle,
@@ -14,10 +15,10 @@ const WHATSAPP =
   encodeURIComponent("Olá! Gostaria de um orçamento de laudo de avaliação de imóvel.");
 
 const finalidades = [
-  { icon: ScrollText, title: "Inventário e partilha", desc: "Valor dos imóveis do espólio para inventário judicial ou em cartório e para a divisão entre herdeiros." },
+  { icon: ScrollText, link: "/avaliacao/inventario-e-partilha", title: "Inventário e partilha", desc: "Valor dos imóveis do espólio para inventário judicial ou em cartório e para a divisão entre herdeiros." },
   { icon: Users, title: "Divórcio e união estável", desc: "Avaliação dos imóveis do casal para a partilha de bens." },
   { icon: Gavel, title: "Processos judiciais", desc: "Laudos para ações, perícias e assistência técnica às partes em processos que envolvem imóveis." },
-  { icon: KeyRound, title: "Revisional e renovatória de aluguel", desc: "Laudo do valor de locação do imóvel residencial ou comercial." },
+  { icon: KeyRound, link: "/avaliacao/valor-de-aluguel", title: "Revisional e renovatória de aluguel", desc: "Laudo do valor de locação do imóvel residencial ou comercial." },
   { icon: Receipt, title: "ITCMD, doação e ganho de capital", desc: "Valor de mercado para doações, impostos e declarações." },
   { icon: Handshake, title: "Compra, venda e negociação", desc: "Saiba quanto vale o imóvel antes de comprar, vender ou fazer uma proposta." },
   { icon: Landmark, title: "Garantias e financiamento", desc: "Avaliação de imóveis oferecidos em garantia ou em operações de crédito." },
@@ -98,10 +99,16 @@ export default function AvaliacaoPage() {
                   <div className="h-12 w-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4"><f.icon className="h-6 w-6" /></div>
                   <h3 className="font-semibold text-foreground mb-1">{f.title}</h3>
                   <p className="text-sm text-muted-foreground">{f.desc}</p>
+                  {"link" in f && f.link && (
+                    <Link to={f.link} className="inline-block mt-3 text-sm font-semibold text-primary hover:underline">Saiba mais</Link>
+                  )}
                 </div>
               </ScrollReveal>
             ))}
           </div>
+          <p className="text-center text-sm text-muted-foreground mt-8">
+            Atendemos Vargem Grande do Sul e região. <Link to="/avaliacao/regiao" className="font-semibold text-primary hover:underline">Veja as cidades atendidas</Link>
+          </p>
         </div>
       </section>
 
