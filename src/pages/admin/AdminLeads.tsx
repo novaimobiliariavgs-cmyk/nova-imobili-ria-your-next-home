@@ -15,6 +15,7 @@ const tipoMap: Record<string, string> = {
   comprador: "Comprador",
   locatario: "Locatário",
   proprietario: "Proprietário",
+  avaliacao: "Laudo de avaliação",
 };
 
 export default function AdminLeads() {

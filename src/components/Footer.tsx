@@ -25,6 +25,7 @@ export function Footer() {
                 { label: "Imóveis à venda", to: "/imoveis?finalidade=venda" },
                 { label: "Imóveis para alugar", to: "/imoveis?finalidade=aluguel" },
                 { label: "Anuncie seu imóvel", to: "/anuncie" },
+                { label: "Laudo de avaliação", to: "/avaliacao" },
                 { label: "Sobre nós", to: "/sobre" },
                 { label: "Contato", to: "/contato" },
               ].map((link) => (
