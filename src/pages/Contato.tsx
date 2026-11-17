@@ -8,14 +8,14 @@ import { useCreateLead } from "@/hooks/useLeads";
 import { toast } from "sonner";
 
 const info = [
-  { icon: MapPin, label: "Endereço", value: "R. Saldanha Marinho, 574 - Centro, Vargem Grande do Sul - SP, 13880-000" },
+  { icon: MapPin, label: "Endereço", value: "R. Saldanha Marinho, 570 - Centro, Vargem Grande do Sul - SP, 13880-067" },
   { icon: Phone, label: "Telefone", value: "(19) 99224-3434" },
   { icon: Mail, label: "E-mail", value: "novaimobiliariavgs@gmail.com" },
   { icon: Clock, label: "Horário", value: "Seg a Sex: 8h às 17h" },
 ];
 
 export default function ContatoPage() {
-  useSEO("Contato | Nova Imobiliária em Vargem Grande do Sul", "Fale com a Nova Imobiliária: R. Saldanha Marinho, 574 - Centro, Vargem Grande do Sul/SP. WhatsApp (19) 99224-3434. Seg a Sex, 8h às 17h.", "/contato");
+  useSEO("Contato | Nova Imobiliária em Vargem Grande do Sul", "Fale com a Nova Imobiliária: R. Saldanha Marinho, 570 - Centro, Vargem Grande do Sul/SP. WhatsApp (19) 99224-3434. Seg a Sex, 8h às 17h.", "/contato");
   const createLead = useCreateLead();
   const [form, setForm] = useState({ nome: "", telefone: "", email: "", mensagem: "" });
 
@@ -65,7 +65,7 @@ export default function ContatoPage() {
                   <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" /> Falar no WhatsApp</a>
                 </Button>
                 <div className="aspect-video rounded-xl bg-muted overflow-hidden mt-4">
-                  <iframe title="Localização" src="https://maps.google.com/maps?q=Nova%20Imobili%C3%A1ria%2C%20R.%20Saldanha%20Marinho%2C%20574%20-%20Centro%2C%20Vargem%20Grande%20do%20Sul%20-%20SP&z=17&output=embed" width="100%" height="100%" style={{ border: 0 }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                  <iframe title="Localização" src="https://maps.google.com/maps?q=Nova%20Imobili%C3%A1ria%2C%20R.%20Saldanha%20Marinho%2C%20570%20-%20Centro%2C%20Vargem%20Grande%20do%20Sul%20-%20SP&z=17&output=embed" width="100%" height="100%" style={{ border: 0 }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
                 </div>
               </div>
             </ScrollReveal>
