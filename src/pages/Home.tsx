@@ -5,6 +5,7 @@ import { Search, Home, Building, TreePine, Store, Shield, Scale, Eye, Handshake,
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { HomeSobreServicos } from "@/components/HomeSobreServicos";
 import { cidades, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -177,6 +178,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeSobreServicos />
 
       {/* CTA Proprietário */}
       <section className="section-padding bg-primary-dark">

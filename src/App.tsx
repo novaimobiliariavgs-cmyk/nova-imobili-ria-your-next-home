@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
+import { queryClient } from "@/lib/queryClient";
 import Home from "./pages/Home";
 import Imoveis from "./pages/Imoveis";
 import ImovelDetail from "./pages/ImovelDetail";
@@ -23,7 +24,6 @@ import PropertyForm from "./pages/admin/PropertyForm";
 import AdminLeads from "./pages/admin/AdminLeads";
 import ResetPassword from "./pages/admin/ResetPassword";
 
-const queryClient = new QueryClient();
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -66,12 +66,13 @@ function PublicLayout() {
   );
 }
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Sonner />
-      <AdminAuthProvider>
-        <BrowserRouter>
+/** Rotas e provedores do site, compartilhados pelo navegador e pela pré-renderização. */
+export function AppRoutes({ client }: { client: QueryClient }) {
+  return (
+    <QueryClientProvider client={client}>
+      <TooltipProvider>
+        <Sonner />
+        <AdminAuthProvider>
           <ScrollToTop />
           <RecoveryRedirect />
           <Routes>
@@ -86,10 +87,16 @@ const App = () => (
             </Route>
             <Route path="/*" element={<PublicLayout />} />
           </Routes>
-        </BrowserRouter>
-      </AdminAuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+        </AdminAuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+const App = () => (
+  <BrowserRouter>
+    <AppRoutes client={queryClient} />
+  </BrowserRouter>
 );
 
 export default App;

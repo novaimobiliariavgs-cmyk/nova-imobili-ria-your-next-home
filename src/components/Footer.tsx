@@ -71,7 +71,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/10 text-center text-xs text-on-primary-dark-muted">
-          © {new Date().getFullYear()} Nova Imobiliária. Todos os direitos reservados.
+          © {new Date().getFullYear()} Nova Imobiliária - Almeida, Felipe e Mengali - CNPJ 48.359.840/0001-71. Todos os direitos reservados.
         </div>
       </div>
     </footer>

@@ -1,8 +1,22 @@
 {
   "rewrites": [
     {
+      "source": "/imoveis",
+      "has": [{ "type": "query", "key": "finalidade", "value": "aluguel" }],
+      "destination": "/_pre/imoveis-aluguel/index.html"
+    },
+    {
+      "source": "/imoveis",
+      "has": [{ "type": "query", "key": "finalidade", "value": "venda" }],
+      "destination": "/_pre/imoveis-venda/index.html"
+    },
+    {
+      "source": "/imoveis",
+      "destination": "/_pre/imoveis-todos/index.html"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/"
+      "destination": "/_spa.html"
     }
   ]
 }
