@@ -55,7 +55,7 @@ const faq = [
   },
   {
     q: "Qual o endereço e o horário de atendimento?",
-    a: "Rua Saldanha Marinho, 574, Centro, Vargem Grande do Sul/SP. Atendemos de segunda a sexta, das 8h às 17h, e pelo WhatsApp (19) 99224-3434.",
+    a: "Rua Saldanha Marinho, 570, Centro, Vargem Grande do Sul/SP. Atendemos de segunda a sexta, das 8h às 17h, e pelo WhatsApp (19) 99224-3434.",
   },
 ];
 
