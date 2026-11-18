@@ -7,6 +7,7 @@ import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { bairros, cidades, type Finalidade, type TipoImovel } from "@/data/properties";
 import { useImoveis } from "@/hooks/useImoveis";
+import { AluguelContato, AluguelFaixa } from "@/components/AluguelContato";
 
 type SortOption = "recentes" | "menor_preco" | "maior_preco";
 
@@ -20,7 +21,7 @@ export default function ImoveisPage() {
   const bairroParam = searchParams.get("bairro") || "";
   const sort = (searchParams.get("sort") as SortOption) || "recentes";
 
-  const { data: imoveis = [], isLoading } = useImoveis({
+  const { data: todos = [], isLoading } = useImoveis({
     finalidade: finalidade || undefined,
     tipo: tipo || undefined,
     cidade: cidadeParam || undefined,
@@ -36,12 +37,15 @@ export default function ImoveisPage() {
         ? "Imóveis à venda em Vargem Grande do Sul | Nova Imobiliária"
         : "Imóveis em Vargem Grande do Sul | Nova Imobiliária",
     finalidade === "aluguel"
-      ? "Casas, apartamentos e salas comerciais para alugar em Vargem Grande do Sul/SP. Veja fotos, valores e agende sua visita pelo WhatsApp."
+      ? "Casas e apartamentos para alugar em Vargem Grande do Sul/SP. Chame a Nova Imobiliária no WhatsApp e receba na hora as opções disponíveis, com fotos e valores."
       : finalidade === "venda"
         ? "Casas, apartamentos, terrenos e imóveis comerciais à venda em Vargem Grande do Sul/SP. Veja fotos, valores e agende sua visita."
         : "Imóveis para alugar e comprar em Vargem Grande do Sul/SP: casas, apartamentos, terrenos e imóveis comerciais.",
     finalidade ? `/imoveis?finalidade=${finalidade}` : "/imoveis"
   );
+
+  // Imóveis de aluguel não são listados no site (a carteira muda muito): o cliente chama no WhatsApp.
+  const imoveis = todos.filter((i) => i.finalidade !== "aluguel");
 
   const setFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -49,6 +53,8 @@ export default function ImoveisPage() {
     else params.delete(key);
     setSearchParams(params);
   };
+
+  if (finalidade === "aluguel") return <AluguelContato />;
 
   return (
     <div className="pt-16">
@@ -109,6 +115,7 @@ export default function ImoveisPage() {
           </aside>
 
           <div className="flex-1">
+            <div className="mb-6"><AluguelFaixa /></div>
             <div className="flex items-center justify-between mb-6">
               <p className="text-sm text-muted-foreground">{imoveis.length} imóvel(is) encontrado(s)</p>
               <select value={sort} onChange={(e) => setFilter("sort", e.target.value)} className="h-9 rounded-lg border border-input bg-background px-3 text-sm">

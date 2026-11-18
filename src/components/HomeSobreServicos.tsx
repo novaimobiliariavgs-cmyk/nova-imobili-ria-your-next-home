@@ -5,9 +5,9 @@ const servicos = [
   {
     icon: KeyRound,
     title: "Aluguel de imóveis",
-    desc: "Casas, apartamentos e salas comerciais para alugar em Vargem Grande do Sul e região, com agendamento de visitas e contrato claro.",
+    desc: "Casas, apartamentos e salas comerciais para alugar em Vargem Grande do Sul e região, Chame no WhatsApp e enviamos na hora as opções disponíveis, com agendamento de visitas e contrato claro.",
     link: "/imoveis?finalidade=aluguel",
-    cta: "Ver imóveis para alugar",
+    cta: "Procurar imóvel para alugar",
   },
   {
     icon: Home,
@@ -35,7 +35,7 @@ const servicos = [
 const faq = [
   {
     q: "Como alugar um imóvel com a Nova Imobiliária?",
-    a: "Veja os imóveis disponíveis na página de aluguel ou chame no WhatsApp (19) 99224-3434. Agendamos a visita, analisamos o cadastro e preparamos o contrato com a garantia adequada ao seu caso.",
+    a: "Chame no WhatsApp (19) 99224-3434 e conte o que procura: enviamos na hora as opções disponíveis, com fotos e valores. Agendamos a visita, analisamos o cadastro e preparamos o contrato com a garantia adequada ao seu caso.",
   },
   {
     q: "Quero colocar meu imóvel para alugar. O que a Nova Imobiliária faz?",
