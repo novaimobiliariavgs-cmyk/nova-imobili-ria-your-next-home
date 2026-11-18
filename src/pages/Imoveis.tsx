@@ -1,7 +1,7 @@
 import { useSEO } from "@/hooks/useSEO";
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -10,6 +10,8 @@ import { useImoveis } from "@/hooks/useImoveis";
 import { AluguelContato, AluguelFaixa } from "@/components/AluguelContato";
 
 type SortOption = "recentes" | "menor_preco" | "maior_preco";
+
+const POR_PAGINA = 12;
 
 export default function ImoveisPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,10 +49,23 @@ export default function ImoveisPage() {
   // Imóveis de aluguel não são listados no site (a carteira muda muito): o cliente chama no WhatsApp.
   const imoveis = todos.filter((i) => i.finalidade !== "aluguel");
 
+  const totalPaginas = Math.max(1, Math.ceil(imoveis.length / POR_PAGINA));
+  const pagina = Math.min(Math.max(1, Number(searchParams.get("pagina")) || 1), totalPaginas);
+  const imoveisPagina = imoveis.slice((pagina - 1) * POR_PAGINA, pagina * POR_PAGINA);
+
+  const irParaPagina = (n: number) => {
+    const params = new URLSearchParams(searchParams);
+    if (n > 1) params.set("pagina", String(n));
+    else params.delete("pagina");
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const setFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
     if (value) params.set(key, value);
     else params.delete(key);
+    params.delete("pagina"); // filtro novo volta para a primeira página
     setSearchParams(params);
   };
 
@@ -107,7 +122,7 @@ export default function ImoveisPage() {
                   <label className="text-xs font-medium text-muted-foreground mb-1 block">Código do imóvel</label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <input type="text" value={codigo} onChange={(e) => setCodigo(e.target.value)} placeholder="Ex: NI-001" className="w-full h-10 rounded-lg border border-input bg-background pl-9 pr-3 text-sm" />
+                    <input type="text" value={codigo} onChange={(e) => { setCodigo(e.target.value); if (searchParams.get("pagina")) irParaPagina(1); }} placeholder="Ex: NI-001" className="w-full h-10 rounded-lg border border-input bg-background pl-9 pr-3 text-sm" />
                   </div>
                 </div>
               </div>
@@ -129,11 +144,29 @@ export default function ImoveisPage() {
               <div className="text-center py-16 text-muted-foreground">Carregando...</div>
             ) : imoveis.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {imoveis.map((imovel, i) => (
+                {imoveisPagina.map((imovel, i) => (
                   <ScrollReveal key={imovel.id} delay={i * 60}><PropertyCard imovel={imovel} /></ScrollReveal>
                 ))}
               </div>
-            ) : (
+            ) : null}
+
+            {!isLoading && totalPaginas > 1 && (
+              <nav className="flex flex-wrap items-center justify-center gap-1 mt-10" aria-label="Páginas">
+                <Button variant="outline" size="sm" onClick={() => irParaPagina(pagina - 1)} disabled={pagina === 1} aria-label="Página anterior">
+                  <ChevronLeft className="h-4 w-4" /> Anterior
+                </Button>
+                {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => (
+                  <Button key={n} variant={n === pagina ? "default" : "outline"} size="sm" className="min-w-9" onClick={() => irParaPagina(n)} aria-current={n === pagina ? "page" : undefined}>
+                    {n}
+                  </Button>
+                ))}
+                <Button variant="outline" size="sm" onClick={() => irParaPagina(pagina + 1)} disabled={pagina === totalPaginas} aria-label="Próxima página">
+                  Próxima <ChevronRight className="h-4 w-4" />
+                </Button>
+              </nav>
+            )}
+
+            {isLoading || imoveis.length > 0 ? null : (
               <div className="text-center py-16 text-muted-foreground">
                 <p className="text-lg font-medium">Nenhum imóvel encontrado</p>
                 <p className="text-sm mt-1">Tente ajustar os filtros</p>

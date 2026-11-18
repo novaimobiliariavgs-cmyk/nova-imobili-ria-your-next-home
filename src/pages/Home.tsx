@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { HomeSobreServicos } from "@/components/HomeSobreServicos";
-import { AluguelFaixa } from "@/components/AluguelContato";
+import { AluguelFaixa, ProprietarioBloco } from "@/components/AluguelContato";
 import { cidades, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -184,6 +184,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ProprietarioBloco fundo="bg-background" />
 
       <HomeSobreServicos />
 
