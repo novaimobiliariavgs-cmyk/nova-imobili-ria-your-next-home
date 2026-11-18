@@ -13,6 +13,7 @@ import Imoveis from "./pages/Imoveis";
 import ImovelDetail from "./pages/ImovelDetail";
 import Anuncie from "./pages/Anuncie";
 import Avaliacao from "./pages/Avaliacao";
+import Aluguel from "./pages/Aluguel";
 import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
@@ -55,6 +56,7 @@ function PublicLayout() {
           <Route path="/imovel/:id" element={<ImovelDetail />} />
           <Route path="/anuncie" element={<Anuncie />} />
           <Route path="/avaliacao" element={<Avaliacao />} />
+          <Route path="/casas-para-alugar-vargem-grande-do-sul" element={<Aluguel />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="*" element={<NotFound />} />

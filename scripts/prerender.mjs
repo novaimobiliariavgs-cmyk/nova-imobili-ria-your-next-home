@@ -65,7 +65,7 @@ function sitemap(imoveis) {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     ["/", "weekly", "1.0"],
-    ["/imoveis?finalidade=aluguel", "daily", "0.9"],
+    ["/casas-para-alugar-vargem-grande-do-sul", "weekly", "0.9"],
     ["/imoveis?finalidade=venda", "daily", "0.9"],
     ["/imoveis", "daily", "0.8"],
     ["/anuncie", "monthly", "0.8"],
@@ -126,11 +126,7 @@ async function main() {
     { url: "/avaliacao", out: "avaliacao/index.html", seed: [] },
     { url: "/contato", out: "contato/index.html", seed: [] },
     { url: "/imoveis", out: "_pre/imoveis-todos/index.html", seed: [[["imoveis", { sort: "recentes" }], imoveis]] },
-    {
-      url: "/imoveis?finalidade=aluguel",
-      out: "_pre/imoveis-aluguel/index.html",
-      seed: [[["imoveis", { finalidade: "aluguel", sort: "recentes" }], byFinalidade("aluguel")]],
-    },
+    { url: "/casas-para-alugar-vargem-grande-do-sul", out: "casas-para-alugar-vargem-grande-do-sul/index.html", seed: [] },
     {
       url: "/imoveis?finalidade=venda",
       out: "_pre/imoveis-venda/index.html",

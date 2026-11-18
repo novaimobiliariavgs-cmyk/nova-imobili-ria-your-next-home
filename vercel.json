@@ -1,13 +1,28 @@
 {
+  "redirects": [
+    {
+      "source": "/imoveis",
+      "has": [
+        {
+          "type": "query",
+          "key": "finalidade",
+          "value": "aluguel"
+        }
+      ],
+      "destination": "/casas-para-alugar-vargem-grande-do-sul",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/imoveis",
-      "has": [{ "type": "query", "key": "finalidade", "value": "aluguel" }],
-      "destination": "/_pre/imoveis-aluguel/index.html"
-    },
-    {
-      "source": "/imoveis",
-      "has": [{ "type": "query", "key": "finalidade", "value": "venda" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "finalidade",
+          "value": "venda"
+        }
+      ],
       "destination": "/_pre/imoveis-venda/index.html"
     },
     {

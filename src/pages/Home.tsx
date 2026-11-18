@@ -13,7 +13,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const categories = [
   { label: "Comprar", icon: Home, desc: "Casas e apartamentos à venda", link: "/imoveis?finalidade=venda", color: "bg-primary/10 text-primary" },
-  { label: "Alugar", icon: Building, desc: "Imóveis para locação", link: "/imoveis?finalidade=aluguel", color: "bg-accent/10 text-accent" },
+  { label: "Alugar", icon: Building, desc: "Imóveis para locação", link: "/casas-para-alugar-vargem-grande-do-sul", color: "bg-accent/10 text-accent" },
   { label: "Terrenos", icon: TreePine, desc: "Lotes e terrenos disponíveis", link: "/imoveis?tipo=terreno", color: "bg-whatsapp/10 text-whatsapp" },
   { label: "Comercial", icon: Store, desc: "Salas e pontos comerciais", link: "/imoveis?tipo=comercial", color: "bg-primary/10 text-primary" },
 ];

@@ -7,6 +7,7 @@ import { getWhatsAppLink } from "@/data/properties";
 const navLinks = [
   { label: "Início", path: "/" },
   { label: "Imóveis", path: "/imoveis" },
+  { label: "Alugar", path: "/casas-para-alugar-vargem-grande-do-sul" },
   { label: "Anuncie", path: "/anuncie" },
   { label: "Avaliação", path: "/avaliacao" },
   { label: "Sobre", path: "/sobre" },
