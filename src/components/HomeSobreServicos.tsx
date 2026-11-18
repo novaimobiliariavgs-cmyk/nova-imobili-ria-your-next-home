@@ -6,7 +6,7 @@ const servicos = [
     icon: KeyRound,
     title: "Aluguel de imóveis",
     desc: "Casas, apartamentos e salas comerciais para alugar em Vargem Grande do Sul e região, Chame no WhatsApp e enviamos na hora as opções disponíveis, com agendamento de visitas e contrato claro.",
-    link: "/imoveis?finalidade=aluguel",
+    link: "/casas-para-alugar-vargem-grande-do-sul",
     cta: "Procurar imóvel para alugar",
   },
   {

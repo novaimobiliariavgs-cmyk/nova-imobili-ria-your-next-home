@@ -1,13 +1,13 @@
 import { useSEO } from "@/hooks/useSEO";
 import { useState, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { bairros, cidades, type Finalidade, type TipoImovel } from "@/data/properties";
 import { useImoveis } from "@/hooks/useImoveis";
-import { AluguelContato, AluguelFaixa } from "@/components/AluguelContato";
+import { AluguelFaixa } from "@/components/AluguelContato";
 
 type SortOption = "recentes" | "menor_preco" | "maior_preco";
 
@@ -69,7 +69,7 @@ export default function ImoveisPage() {
     setSearchParams(params);
   };
 
-  if (finalidade === "aluguel") return <AluguelContato />;
+  if (finalidade === "aluguel") return <Navigate to="/casas-para-alugar-vargem-grande-do-sul" replace />;
 
   return (
     <div className="pt-16">

@@ -23,7 +23,7 @@ export function Footer() {
               {[
                 { label: "Início", to: "/" },
                 { label: "Imóveis à venda", to: "/imoveis?finalidade=venda" },
-                { label: "Imóveis para alugar", to: "/imoveis?finalidade=aluguel" },
+                { label: "Imóveis para alugar", to: "/casas-para-alugar-vargem-grande-do-sul" },
                 { label: "Anuncie seu imóvel", to: "/anuncie" },
                 { label: "Laudo de avaliação", to: "/avaliacao" },
                 { label: "Sobre nós", to: "/sobre" },
