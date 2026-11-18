@@ -57,31 +57,7 @@ export function AluguelContato() {
         </div>
       </section>
 
-      <section className="section-padding bg-muted/30">
-        <div className="container max-w-3xl">
-          <ScrollReveal>
-            <div className="rounded-xl border border-border bg-card p-8 text-center">
-              <div className="h-14 w-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4"><HomeIcon className="h-7 w-7" /></div>
-              <h2 className="text-2xl font-bold text-foreground mb-3">Tem um imóvel para alugar?</h2>
-              <p className="text-muted-foreground mb-6">
-                A Nova administra para você: divulgação, análise do inquilino, contrato, vistoria com relatório fotográfico,
-                cobrança mensal e repasse do aluguel, tudo com acompanhamento jurídico.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button variant="accent" size="lg" asChild>
-                  <a href={getWhatsAppProprietarioLink()} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-5 w-5" />
-                    Falar sobre meu imóvel
-                  </a>
-                </Button>
-                <Button variant="outline" size="lg" asChild>
-                  <Link to="/anuncie">Ver como funciona <ArrowRight className="h-4 w-4 ml-1" /></Link>
-                </Button>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+      <ProprietarioBloco />
     </div>
   );
 }
@@ -100,5 +76,36 @@ export function AluguelFaixa() {
         </a>
       </Button>
     </div>
+  );
+}
+
+/** Bloco para captar proprietários que querem colocar o imóvel para alugar. */
+export function ProprietarioBloco({ fundo = "bg-muted/30" }: { fundo?: string }) {
+  return (
+    <section className={`section-padding ${fundo}`}>
+      <div className="container max-w-3xl">
+        <ScrollReveal>
+          <div className="rounded-xl border border-border bg-card p-8 text-center">
+            <div className="h-14 w-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4"><HomeIcon className="h-7 w-7" /></div>
+            <h2 className="text-2xl font-bold text-foreground mb-3">Tem um imóvel para alugar?</h2>
+            <p className="text-muted-foreground mb-6">
+              A Nova administra para você: divulgação, análise do inquilino, contrato, vistoria com relatório fotográfico,
+              cobrança mensal e repasse do aluguel, tudo com acompanhamento jurídico.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button variant="accent" size="lg" asChild>
+                <a href={getWhatsAppProprietarioLink()} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="h-5 w-5" />
+                  Falar sobre meu imóvel
+                </a>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/anuncie">Ver como funciona <ArrowRight className="h-4 w-4 ml-1" /></Link>
+              </Button>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
   );
 }
