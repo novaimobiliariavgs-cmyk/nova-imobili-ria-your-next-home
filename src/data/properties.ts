@@ -56,3 +56,17 @@ export function getWhatsAppLink(codigo?: string, titulo?: string): string {
   }
   return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
 }
+
+function waLink(msg: string): string {
+  return `https://wa.me/5519992243434?text=${encodeURIComponent(msg)}`;
+}
+
+/** Quem procura imóvel para alugar: a mensagem já identifica que veio do site. */
+export function getWhatsAppAluguelLink(): string {
+  return waLink("Olá! Vim pelo site e procuro um imóvel para alugar.");
+}
+
+/** Proprietário que quer colocar o imóvel para alugar. */
+export function getWhatsAppProprietarioLink(): string {
+  return waLink("Olá! Vim pelo site e tenho um imóvel para alugar. Gostaria de saber como funciona a administração.");
+}

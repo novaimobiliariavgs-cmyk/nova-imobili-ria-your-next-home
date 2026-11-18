@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { HomeSobreServicos } from "@/components/HomeSobreServicos";
+import { AluguelFaixa } from "@/components/AluguelContato";
 import { cidades, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -31,7 +32,9 @@ export default function HomePage() {
   
   const [activeTab, setActiveTab] = useState<string>("venda");
 
-  const { data: destaque = [] } = useImoveisDestaque();
+  const { data: destaqueTodos = [] } = useImoveisDestaque();
+  // Aluguel não é listado no site: o cliente chama no WhatsApp.
+  const destaque = destaqueTodos.filter((i) => i.finalidade !== "aluguel");
 
   const tabFilters = (() => {
     if (activeTab === "venda") return { finalidade: "venda" };
@@ -40,7 +43,8 @@ export default function HomePage() {
     if (activeTab === "comercial") return { tipo: "comercial" };
     return {};
   })();
-  const { data: tabImoveis = [] } = useImoveis(tabFilters);
+  const { data: tabTodos = [] } = useImoveis(tabFilters);
+  const tabImoveis = tabTodos.filter((i) => i.finalidade !== "aluguel");
 
   useSEO(
     "Imobiliária em Vargem Grande do Sul | Nova Imobiliária",
@@ -172,7 +176,9 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tabImoveis.length > 0 ? tabImoveis.map((imovel) => <PropertyCard key={imovel.id} imovel={imovel} />) : (
+            {activeTab === "aluguel" ? (
+              <div className="col-span-full"><AluguelFaixa /></div>
+            ) : tabImoveis.length > 0 ? tabImoveis.map((imovel) => <PropertyCard key={imovel.id} imovel={imovel} />) : (
               <div className="col-span-full text-center py-12 text-muted-foreground">Nenhum imóvel encontrado nesta categoria.</div>
             )}
           </div>
