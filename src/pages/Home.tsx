@@ -7,7 +7,7 @@ import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { HomeSobreServicos } from "@/components/HomeSobreServicos";
 import { AluguelFaixa, ProprietarioBloco } from "@/components/AluguelContato";
-import { cidades, type Finalidade } from "@/data/properties";
+import { listarBairros, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -28,7 +28,9 @@ const diferenciais = [
 export default function HomePage() {
   const [finalidade, setFinalidade] = useState<Finalidade>("venda");
   const [tipo, setTipo] = useState("");
-  const [cidade, setCidade] = useState("");
+  const [bairro, setBairro] = useState("");
+  const { data: ativos = [] } = useImoveis({ status: "ativo" });
+  const bairrosBusca = listarBairros(ativos.filter((i) => i.finalidade !== "aluguel"));
   
   const [activeTab, setActiveTab] = useState<string>("venda");
 
@@ -78,12 +80,12 @@ export default function HomePage() {
                 <option value="terreno">Terreno</option>
                 <option value="comercial">Comercial</option>
               </select>
-              <select value={cidade} onChange={(e) => setCidade(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary flex-1">
-                <option value="">Todas as cidades</option>
-                {cidades.map((c) => <option key={c} value={c}>{c}</option>)}
+              <select value={bairro} onChange={(e) => setBairro(e.target.value)} className="h-12 rounded-xl border-0 bg-muted px-4 text-sm text-foreground focus:ring-2 focus:ring-primary flex-1">
+                <option value="">Todos os bairros</option>
+                {bairrosBusca.map((b) => <option key={b.chave} value={b.nome}>{b.nome}</option>)}
               </select>
               <Button variant="accent" size="lg" className="rounded-xl" asChild>
-                <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${cidade ? `&cidade=${cidade}` : ""}`}>
+                <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${bairro && finalidade !== "aluguel" ? `&bairro=${encodeURIComponent(bairro)}` : ""}`}>
                   <Search className="h-5 w-5" /> Buscar
                 </Link>
               </Button>

@@ -33,15 +33,40 @@ export const cidades = [
   "Mococa",
 ];
 
-export const bairros = [
-  "Centro",
-  "Jardim São Paulo",
-  "Jardim América",
-  "Parque das Flores",
-  "Vila Nova",
-  "Jardim Europa",
-  "Vila Brasil",
-];
+/** Chave para comparar bairros escritos de formas diferentes ("Jd. América", "Jardim America", "JARDIM AMÉRICA"). */
+export function chaveBairro(bairro: string | null | undefined): string {
+  return (bairro || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\bjd\.?\s*/g, "jardim ")
+    .replace(/\bres\.?\s+/g, "residencial ")
+    .replace(/\bconj\.?\s*hab\.?\s*/g, "conjunto habitacional ")
+    .replace(/\bv\.\s*/g, "vila ")
+    .replace(/\bpq\.?\s*/g, "parque ")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Lista de bairros a partir dos imóveis cadastrados, sem repetir grafias diferentes do mesmo bairro. */
+export function listarBairros(imoveis: { bairro: string | null }[]): { chave: string; nome: string; total: number }[] {
+  const mapa = new Map<string, { nome: string; total: number }>();
+  for (const i of imoveis) {
+    const chave = chaveBairro(i.bairro);
+    if (!chave) continue;
+    const atual = mapa.get(chave);
+    const nome = (i.bairro || "").trim();
+    // Mostra a grafia mais completa (ex.: "Jardim América" no lugar de "Jd. America").
+    if (!atual) mapa.set(chave, { nome, total: 1 });
+    else {
+      atual.total++;
+      if (!/^jd\b/i.test(nome) && (/^jd\b/i.test(atual.nome) || nome.length > atual.nome.length)) atual.nome = nome;
+    }
+  }
+  return [...mapa.entries()]
+    .map(([chave, v]) => ({ chave, ...v, nome: v.nome.replace(/^jd\.?\s*/i, "Jardim ") }))
+    .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+}
 
 export function formatPrice(value: number, finalidade: string): string {
   const formatted = value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
