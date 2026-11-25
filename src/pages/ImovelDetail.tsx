@@ -4,7 +4,7 @@ import { Bed, Bath, Car, Maximize, MapPin, ArrowLeft, MessageCircle, ChevronLeft
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { formatPrice, getWhatsAppLink } from "@/data/properties";
+import { formatPrice, formatMetragem, getWhatsAppLink } from "@/data/properties";
 import { useImovel, useImoveis } from "@/hooks/useImoveis";
 import { useCreateLead } from "@/hooks/useLeads";
 import { useState, useCallback } from "react";
@@ -146,12 +146,12 @@ export default function ImovelDetailPage() {
                 {(imovel.quartos || 0) > 0 && <div className="flex items-center gap-2"><Bed className="h-5 w-5 text-muted-foreground" /><div><span className="font-semibold">{imovel.quartos}</span> <span className="text-sm text-muted-foreground">Quartos</span></div></div>}
                 {(imovel.banheiros || 0) > 0 && <div className="flex items-center gap-2"><Bath className="h-5 w-5 text-muted-foreground" /><div><span className="font-semibold">{imovel.banheiros}</span> <span className="text-sm text-muted-foreground">Banheiros</span></div></div>}
                 {(imovel.vagas || 0) > 0 && <div className="flex items-center gap-2"><Car className="h-5 w-5 text-muted-foreground" /><div><span className="font-semibold">{imovel.vagas}</span> <span className="text-sm text-muted-foreground">Vagas</span></div></div>}
-                <div className="flex items-center gap-2"><Maximize className="h-5 w-5 text-muted-foreground" /><div><span className="font-semibold">{imovel.metragem}</span> <span className="text-sm text-muted-foreground">m²</span></div></div>
+                {formatMetragem(imovel.metragem) && <div className="flex items-center gap-2"><Maximize className="h-5 w-5 text-muted-foreground" /><div><span className="font-semibold">{formatMetragem(imovel.metragem)}</span></div></div>}
               </div>
             </ScrollReveal>
 
             <ScrollReveal>
-              <div><h2 className="text-lg font-semibold text-foreground mb-3">Descrição</h2><p className="text-muted-foreground leading-relaxed">{imovel.descricao}</p></div>
+              <div><h2 className="text-lg font-semibold text-foreground mb-3">Descrição</h2><p className="text-muted-foreground leading-relaxed whitespace-pre-line">{imovel.descricao}</p></div>
             </ScrollReveal>
           </div>
 
