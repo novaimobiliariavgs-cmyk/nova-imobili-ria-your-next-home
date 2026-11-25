@@ -95,3 +95,19 @@ export function getWhatsAppAluguelLink(): string {
 export function getWhatsAppProprietarioLink(): string {
   return waLink("Olá! Vim pelo site e tenho um imóvel para alugar. Gostaria de saber como funciona a administração.");
 }
+
+/** Metragem no formato brasileiro (219,71); vazio quando não há valor. */
+export function formatMetragem(m: number | null | undefined): string {
+  if (!m || m <= 0) return "";
+  return `${m.toLocaleString("pt-BR", { maximumFractionDigits: 2 })} m²`;
+}
+
+/** Título para o cartão: tira o bairro do início ("Centro | Casa...") quando ele já aparece acima. */
+export function tituloCartao(titulo: string, bairro: string | null | undefined): string {
+  const i = titulo.indexOf("|");
+  if (i < 0) return titulo;
+  const prefixo = titulo.slice(0, i);
+  if (chaveBairro(prefixo) !== chaveBairro(bairro)) return titulo;
+  const resto = titulo.slice(i + 1).trim();
+  return resto ? resto.charAt(0).toUpperCase() + resto.slice(1) : titulo;
+}

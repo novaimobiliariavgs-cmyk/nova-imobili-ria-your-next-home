@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Imovel, formatPrice } from "@/data/properties";
+import { Imovel, formatPrice, formatMetragem, tituloCartao } from "@/data/properties";
 import { Bed, Bath, Car, Maximize } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -50,7 +50,7 @@ export function PropertyCard({ imovel }: PropertyCardProps) {
           {imovel.bairro} · {imovel.cidade}
         </p>
         <h3 className="font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-          {imovel.titulo}
+          {tituloCartao(imovel.titulo, imovel.bairro)}
         </h3>
         <p className="text-xl font-bold text-primary">
           {formatPrice(imovel.preco, imovel.finalidade)}
@@ -74,16 +74,20 @@ export function PropertyCard({ imovel }: PropertyCardProps) {
                 <Car className="h-4 w-4" /> {imovel.vagas}
               </span>
             )}
-            <span className="flex items-center gap-1">
-              <Maximize className="h-4 w-4" /> {imovel.metragem}m²
-            </span>
+            {formatMetragem(imovel.metragem) && (
+              <span className="flex items-center gap-1">
+                <Maximize className="h-4 w-4" /> {formatMetragem(imovel.metragem)}
+              </span>
+            )}
           </div>
         )}
         {imovel.tipo === "terreno" && (
           <div className="flex items-center gap-4 pt-2 border-t border-border/50 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <Maximize className="h-4 w-4" /> {imovel.metragem}m²
-            </span>
+            {formatMetragem(imovel.metragem) && (
+              <span className="flex items-center gap-1">
+                <Maximize className="h-4 w-4" /> {formatMetragem(imovel.metragem)}
+              </span>
+            )}
           </div>
         )}
       </div>
