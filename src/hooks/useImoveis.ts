@@ -23,7 +23,9 @@ export function useImoveis(filters?: {
       if (filters?.bairro) query = query.eq("bairro", filters.bairro);
       if (filters?.status && filters.status !== "todos") query = query.eq("status", filters.status);
       if (filters?.search) {
-        query = query.or(`titulo.ilike.%${filters.search}%,codigo.ilike.%${filters.search}%`);
+        // Remove caracteres que quebram o filtro "or" do Supabase (vírgula, parênteses).
+        const termo = filters.search.replace(/[,()%*]/g, " ").trim();
+        if (termo) query = query.or(`titulo.ilike.%${termo}%,codigo.ilike.%${termo}%,bairro.ilike.%${termo}%`);
       }
 
       if (filters?.sort === "menor_preco") query = query.order("preco", { ascending: true });

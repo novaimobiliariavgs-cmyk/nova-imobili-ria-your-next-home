@@ -5,7 +5,7 @@ import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { bairros, cidades, type Finalidade, type TipoImovel } from "@/data/properties";
+import { chaveBairro, listarBairros, type Finalidade, type TipoImovel } from "@/data/properties";
 import { useImoveis } from "@/hooks/useImoveis";
 import { AluguelFaixa } from "@/components/AluguelContato";
 
@@ -19,19 +19,20 @@ export default function ImoveisPage() {
 
   const finalidade = (searchParams.get("finalidade") as Finalidade) || "";
   const tipo = (searchParams.get("tipo") as TipoImovel) || "";
-  const cidadeParam = searchParams.get("cidade") || "";
   const bairroParam = searchParams.get("bairro") || "";
+  const quartosParam = Number(searchParams.get("quartos")) || 0;
+  const precoMaxParam = Number(searchParams.get("preco_max")) || 0;
   const sort = (searchParams.get("sort") as SortOption) || "recentes";
 
+  // Busca só por finalidade e tipo; bairro, quartos e preço são filtrados aqui,
+  // para que bairros escritos de formas diferentes ("Jd." / "Jardim") caiam juntos.
   const { data: todos = [], isLoading } = useImoveis({
     finalidade: finalidade || undefined,
     tipo: tipo || undefined,
-    cidade: cidadeParam || undefined,
-    bairro: bairroParam || undefined,
+    status: "ativo",
     search: codigo || undefined,
     sort,
   });
-
   useSEO(
     finalidade === "aluguel"
       ? "Imóveis para alugar em Vargem Grande do Sul | Nova Imobiliária"
@@ -47,7 +48,19 @@ export default function ImoveisPage() {
   );
 
   // Imóveis de aluguel não são listados no site (a carteira muda muito): o cliente chama no WhatsApp.
-  const imoveis = todos.filter((i) => i.finalidade !== "aluguel");
+  const disponiveis = useMemo(() => todos.filter((i) => i.finalidade !== "aluguel"), [todos]);
+  const opcoesBairro = useMemo(() => listarBairros(disponiveis), [disponiveis]);
+  const imoveis = useMemo(
+    () =>
+      disponiveis.filter(
+        (i) =>
+          (!bairroParam || chaveBairro(i.bairro) === chaveBairro(bairroParam)) &&
+          (!quartosParam || (i.quartos ?? 0) >= quartosParam) &&
+          (!precoMaxParam || i.preco <= precoMaxParam)
+      ),
+    [disponiveis, bairroParam, quartosParam, precoMaxParam]
+  );
+  const temFiltro = !!(finalidade || tipo || bairroParam || quartosParam || precoMaxParam || codigo);
 
   const totalPaginas = Math.max(1, Math.ceil(imoveis.length / POR_PAGINA));
   const pagina = Math.min(Math.max(1, Number(searchParams.get("pagina")) || 1), totalPaginas);
@@ -105,17 +118,33 @@ export default function ImoveisPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Cidade</label>
-                  <select value={cidadeParam} onChange={(e) => setFilter("cidade", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
-                    <option value="">Todas</option>
-                    {cidades.map((c) => <option key={c} value={c}>{c}</option>)}
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Bairro</label>
+                  <select value={bairroParam ? chaveBairro(bairroParam) : ""} onChange={(e) => setFilter("bairro", opcoesBairro.find((b) => b.chave === e.target.value)?.nome || "")} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
+                    <option value="">Todos</option>
+                    {opcoesBairro.map((b) => <option key={b.chave} value={b.chave}>{b.nome} ({b.total})</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Bairro</label>
-                  <select value={bairroParam} onChange={(e) => setFilter("bairro", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
-                    <option value="">Todos</option>
-                    {bairros.map((b) => <option key={b} value={b}>{b}</option>)}
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Quartos</label>
+                  <select value={quartosParam || ""} onChange={(e) => setFilter("quartos", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
+                    <option value="">Qualquer</option>
+                    <option value="1">1 ou mais</option>
+                    <option value="2">2 ou mais</option>
+                    <option value="3">3 ou mais</option>
+                    <option value="4">4 ou mais</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">Valor até</label>
+                  <select value={precoMaxParam || ""} onChange={(e) => setFilter("preco_max", e.target.value)} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm">
+                    <option value="">Qualquer valor</option>
+                    <option value="200000">R$ 200 mil</option>
+                    <option value="300000">R$ 300 mil</option>
+                    <option value="400000">R$ 400 mil</option>
+                    <option value="500000">R$ 500 mil</option>
+                    <option value="700000">R$ 700 mil</option>
+                    <option value="1000000">R$ 1 milhão</option>
+                    <option value="2000000">R$ 2 milhões</option>
                   </select>
                 </div>
                 <div>
@@ -125,6 +154,11 @@ export default function ImoveisPage() {
                     <input type="text" value={codigo} onChange={(e) => { setCodigo(e.target.value); if (searchParams.get("pagina")) irParaPagina(1); }} placeholder="Ex: NI-001" className="w-full h-10 rounded-lg border border-input bg-background pl-9 pr-3 text-sm" />
                   </div>
                 </div>
+                {temFiltro && (
+                  <button type="button" onClick={() => { setCodigo(""); setSearchParams(new URLSearchParams()); }} className="text-sm text-primary hover:underline">
+                    Limpar filtros
+                  </button>
+                )}
               </div>
             </ScrollReveal>
           </aside>
