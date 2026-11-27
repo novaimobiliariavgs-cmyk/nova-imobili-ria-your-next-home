@@ -35,7 +35,7 @@ const faq = [
   { q: "Quanto custa um laudo de avaliação de imóvel?", a: "O valor depende do tipo de imóvel, do tamanho e da finalidade do laudo. Envie os dados pelo formulário ou pelo WhatsApp e passamos o orçamento sem compromisso." },
   { q: "Em quanto tempo o laudo fica pronto?", a: "Trabalhamos com entrega rápida. O prazo de cada laudo é informado junto com o orçamento." },
   { q: "O laudo serve para inventário e processos judiciais?", a: "Sim. Elaboramos laudos e pareceres para inventários, partilhas, divórcios, ações revisionais e renovatórias de aluguel e outros processos judiciais." },
-  { q: "Quais cidades vocês atendem?", a: "Vargem Grande do Sul, São João da Boa Vista, Casa Branca, Itobi, Divinolândia, Poços de Caldas e região." },
+  { q: "Quais cidades vocês atendem?", a: "Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas, Casa Branca, Aguaí, Espírito Santo do Pinhal, São Sebastião da Grama, Divinolândia, Itobi, Mococa e São José do Rio Pardo." },
 ];
 
 export default function AvaliacaoPage() {

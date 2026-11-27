@@ -1,6 +1,22 @@
 import type { LucideIcon } from "lucide-react";
 import { FileText, ClipboardCheck, KeyRound, ScrollText, FileCheck2, Gavel } from "lucide-react";
 
+/** Cidades atendidas nos serviços (sede em Vargem Grande do Sul). */
+export const CIDADES = [
+  "Vargem Grande do Sul",
+  "São João da Boa Vista",
+  "Poços de Caldas",
+  "Casa Branca",
+  "Aguaí",
+  "Espírito Santo do Pinhal",
+  "São Sebastião da Grama",
+  "Divinolândia",
+  "Itobi",
+  "Mococa",
+  "São José do Rio Pardo",
+];
+export const CIDADES_TEXTO = CIDADES.slice(0, -1).join(", ") + " e " + CIDADES[CIDADES.length - 1];
+
 export interface Servico {
   slug: string;
   icon: LucideIcon;
@@ -35,10 +51,10 @@ export const servicos: Servico[] = [
     icon: ClipboardCheck,
     nome: "Vistoria de imóvel",
     resumo: "Vistoria de entrada e de saída com relatório fotográfico, para proprietário ou inquilino.",
-    seoTitle: "Vistoria de Imóvel em Vargem Grande do Sul | Nova Imobiliária",
+    seoTitle: "Vistoria de Imóvel em Vargem Grande do Sul e Região | Nova Imobiliária",
     seoDescription:
-      "Vistoria de entrada e de saída de imóvel em Vargem Grande do Sul e região, com relatório fotográfico detalhado. Para quem aluga por conta própria. Valor sob consulta.",
-    h1: "Vistoria de Imóvel em Vargem Grande do Sul",
+      "Vistoria de entrada e de saída de imóvel em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas e região, com relatório fotográfico. Valor sob consulta.",
+    h1: "Vistoria de Imóvel em Vargem Grande do Sul e Região",
     intro:
       "Alugou o imóvel por conta própria? A vistoria registra o estado de cada cômodo na entrega das chaves e evita discussão na devolução. Fazemos a vistoria completa, com fotos e descrição, pronta para assinatura das partes.",
     paraQuem: [
@@ -56,7 +72,7 @@ export const servicos: Servico[] = [
       { q: "Quanto custa a vistoria?", a: "O valor é sob consulta e depende do tamanho do imóvel e da cidade. Chame no WhatsApp e passamos o orçamento sem compromisso." },
       { q: "Preciso ser cliente da imobiliária para contratar?", a: "Não. A vistoria é um serviço avulso, para quem aluga ou vende por conta própria." },
       { q: "Vocês fazem a vistoria de saída também?", a: "Sim. Na devolução das chaves, comparamos o imóvel com a vistoria de entrada e apontamos o que mudou." },
-      { q: "Quais cidades vocês atendem?", a: "Vargem Grande do Sul, São João da Boa Vista, Casa Branca, Itobi, Divinolândia e região." },
+      { q: "Quais cidades vocês atendem?", a: `Nossa sede fica em Vargem Grande do Sul e atendemos também ${CIDADES.slice(1).join(", ")}.` },
     ],
     whatsappMsg: "Olá! Gostaria de um orçamento de vistoria de imóvel.",
   },
@@ -65,10 +81,10 @@ export const servicos: Servico[] = [
     icon: KeyRound,
     nome: "Locação sem administração",
     resumo: "Encontramos e analisamos o inquilino, fazemos contrato e vistoria. Depois, o imóvel fica com você.",
-    seoTitle: "Locação sem Administração em Vargem Grande do Sul | Nova Imobiliária",
+    seoTitle: "Locação sem Administração em Vargem Grande do Sul e Região | Nova Imobiliária",
     seoDescription:
-      "Quer alugar seu imóvel e cuidar dele você mesmo? A Nova Imobiliária faz a análise do inquilino, o contrato de locação e a vistoria, com taxa única. Valor sob consulta.",
-    h1: "Locação sem Administração",
+      "Quer alugar seu imóvel e cuidar dele você mesmo? Em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas e região, fazemos análise do inquilino, contrato e vistoria. Taxa única sob consulta.",
+    h1: "Locação sem Administração em Vargem Grande do Sul e Região",
     intro:
       "Para o proprietário que prefere receber o aluguel e cuidar do imóvel por conta própria, mas quer começar a locação do jeito certo. Fazemos a parte que mais pesa na segurança da locação, uma única vez, sem comissão mensal.",
     paraQuem: [
@@ -95,10 +111,10 @@ export const servicos: Servico[] = [
     icon: ScrollText,
     nome: "Imóvel herdado",
     resumo: "Avaliação para o inventário e, depois, venda ou aluguel do imóvel da herança.",
-    seoTitle: "Imóvel Herdado em Vargem Grande do Sul: Avaliação e Venda | Nova Imobiliária",
+    seoTitle: "Imóvel Herdado: Avaliação e Venda em Vargem Grande do Sul e Região",
     seoDescription:
-      "Herdou um imóvel em Vargem Grande do Sul? Fazemos a avaliação para o inventário e a partilha e cuidamos da venda ou do aluguel depois. Atendimento local, valor sob consulta.",
-    h1: "Imóvel Herdado em Vargem Grande do Sul",
+      "Herdou um imóvel em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas ou região? Avaliação para inventário e partilha e, depois, venda ou aluguel. Valor sob consulta.",
+    h1: "Imóvel Herdado em Vargem Grande do Sul e Região",
     intro:
       "Quando um imóvel vem de herança, surgem as mesmas perguntas: quanto ele vale, como dividir entre os herdeiros e o que fazer com ele depois. Ajudamos a família em cada etapa do lado imobiliário.",
     paraQuem: [
@@ -125,10 +141,10 @@ export const servicos: Servico[] = [
     icon: FileCheck2,
     nome: "Regularização do imóvel",
     resumo: "Organizamos habite-se, averbação e documentos para o imóvel poder ser vendido ou financiado.",
-    seoTitle: "Regularização de Imóvel em Vargem Grande do Sul | Nova Imobiliária",
+    seoTitle: "Regularização de Imóvel em Vargem Grande do Sul e Região | Nova Imobiliária",
     seoDescription:
-      "Imóvel sem averbação da construção, sem habite-se ou com documentos pendentes em Vargem Grande do Sul? Organizamos a documentação para vender ou financiar. Valor sob consulta.",
-    h1: "Regularização de Imóvel em Vargem Grande do Sul",
+      "Imóvel sem averbação, sem habite-se ou com documentos pendentes em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas e região? Organizamos tudo para vender ou financiar.",
+    h1: "Regularização de Imóvel em Vargem Grande do Sul e Região",
     intro:
       "Casa construída que não aparece na matrícula, falta de habite-se ou documentos desatualizados travam a venda e impedem o financiamento bancário. Levantamos o que falta e organizamos a documentação até o imóvel ficar pronto para negociar.",
     paraQuem: [
@@ -155,10 +171,10 @@ export const servicos: Servico[] = [
     icon: Gavel,
     nome: "Imóveis de leilão",
     resumo: "Ajudamos a escolher, avaliar e, depois da compra, vender ou alugar imóveis de leilão.",
-    seoTitle: "Imóveis de Leilão em Vargem Grande do Sul e São João da Boa Vista | Nova Imobiliária",
+    seoTitle: "Imóveis de Leilão em São João da Boa Vista, Poços de Caldas e Região",
     seoDescription:
-      "Pensando em comprar imóvel de leilão em Vargem Grande do Sul, São João da Boa Vista e região? Avaliamos o imóvel antes do lance e cuidamos da venda ou do aluguel depois. Valor sob consulta.",
-    h1: "Imóveis de Leilão na Região",
+      "Vai comprar imóvel de leilão em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas ou região? Avaliamos antes do lance e cuidamos da venda ou do aluguel depois.",
+    h1: "Imóveis de Leilão em São João da Boa Vista, Poços de Caldas e Região",
     intro:
       "Imóvel de leilão pode ser um ótimo negócio, desde que o comprador saiba quanto ele vale de verdade e o que vem junto com ele. Avaliamos a oportunidade antes do lance e, depois da compra, cuidamos da venda ou do aluguel.",
     paraQuem: [
@@ -174,7 +190,7 @@ export const servicos: Servico[] = [
     ],
     faq: [
       { q: "Vale a pena comprar imóvel de leilão?", a: "Pode valer, se o lance ficar bem abaixo do valor de mercado e os custos e riscos forem conhecidos antes. Por isso a avaliação prévia é tão importante." },
-      { q: "Vocês atendem leilões de bancos e judiciais?", a: "Sim. Avaliamos imóveis de leilões de bancos e judiciais em Vargem Grande do Sul, São João da Boa Vista e região." },
+      { q: "Vocês atendem leilões de bancos e judiciais?", a: "Sim. Avaliamos imóveis de leilões de bancos e judiciais em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas e região." },
       { q: "Quanto custa?", a: "O valor é sob consulta, conforme o imóvel e o serviço. Chame no WhatsApp e envie o link do leilão." },
     ],
     whatsappMsg: "Olá! Estou interessado em um imóvel de leilão e gostaria de uma avaliação.",
