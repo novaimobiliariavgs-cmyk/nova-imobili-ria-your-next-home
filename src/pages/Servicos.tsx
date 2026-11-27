@@ -14,8 +14,8 @@ export default function ServicosPage() {
   );
 
   return (
-    <div className="pt-16">
-      <div className="bg-primary-dark text-white section-padding">
+    <div>
+      <div className="bg-primary-dark text-white page-hero">
         <div className="container text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Serviços</h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">

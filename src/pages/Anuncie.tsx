@@ -38,8 +38,8 @@ export default function AnunciePage() {
   };
 
   return (
-    <div className="pt-16">
-      <div className="bg-primary-dark text-white section-padding">
+    <div>
+      <div className="bg-primary-dark text-white page-hero">
         <div className="container text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Venda ou alugue seu imóvel<br />com segurança jurídica</h1>
           <p className="text-white/70 text-lg max-w-xl mx-auto">Conte com uma imobiliária gerenciada por advogado para cuidar do seu patrimônio</p>

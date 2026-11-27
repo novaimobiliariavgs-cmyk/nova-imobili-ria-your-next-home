@@ -85,12 +85,12 @@ export default function ImovelDetailPage() {
   );
 
   if (isLoading) {
-    return <div className="pt-16 min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Carregando...</p></div>;
+    return <div className="pt-24 min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Carregando...</p></div>;
   }
 
   if (!imovel) {
     return (
-      <div className="pt-16 min-h-screen flex items-center justify-center">
+      <div className="pt-24 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-2">Imóvel não encontrado</h1>
           <Button asChild><Link to="/imoveis">Ver todos os imóveis</Link></Button>
@@ -121,7 +121,7 @@ export default function ImovelDetailPage() {
   };
 
   return (
-    <div className="pt-16">
+    <div className="pt-24">
       <div className="container section-padding">
         <Link to="/imoveis" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-4 w-4" /> Voltar aos imóveis

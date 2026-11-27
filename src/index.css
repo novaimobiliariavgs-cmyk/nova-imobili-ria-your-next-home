@@ -93,6 +93,10 @@
   .section-padding-sm {
     @apply py-12 md:py-16;
   }
+  /* Faixa escura do topo das páginas internas: espaço para o menu flutuante */
+  .page-hero {
+    @apply pt-28 pb-14 md:pt-36 md:pb-20;
+  }
 }
 
 @layer components {
