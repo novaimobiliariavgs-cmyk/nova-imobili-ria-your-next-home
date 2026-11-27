@@ -3,13 +3,19 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, MessageCircle } from "lucide-react";
 import { getWhatsAppLink } from "@/data/properties";
+import { servicos } from "@/data/servicos";
+
+/** Páginas de serviço destacam o item "Serviços" do menu. */
+const servicoPaths = ["/servicos", "/avaliacao", ...servicos.map((s) => `/${s.slug}`)];
+const isActive = (current: string, path: string) =>
+  current === path || (path === "/servicos" && servicoPaths.includes(current));
 
 const navLinks = [
   { label: "Início", path: "/" },
   { label: "Imóveis", path: "/imoveis" },
   { label: "Alugar", path: "/casas-para-alugar-vargem-grande-do-sul" },
   { label: "Anuncie", path: "/anuncie" },
-  { label: "Avaliação", path: "/avaliacao" },
+  { label: "Serviços", path: "/servicos" },
   { label: "Sobre", path: "/sobre" },
   { label: "Contato", path: "/contato" },
 ];
@@ -33,7 +39,7 @@ export function Header() {
               key={link.path}
               to={link.path}
               className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                location.pathname === link.path
+                isActive(location.pathname, link.path)
                   ? "text-primary bg-primary/5"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
               }`}
@@ -73,7 +79,7 @@ export function Header() {
                 to={link.path}
                 onClick={() => setOpen(false)}
                 className={`px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
-                  location.pathname === link.path
+                  isActive(location.pathname, link.path)
                     ? "text-primary bg-primary/5"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
