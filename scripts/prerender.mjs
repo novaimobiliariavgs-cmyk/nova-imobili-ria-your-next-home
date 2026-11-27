@@ -9,6 +9,15 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const SITE = "https://www.novaimobiliariavgs.com.br";
+// Páginas de serviço (mantenha em sincronia com src/data/servicos.ts).
+const SERVICOS = [
+  "/servicos",
+  "/vistoria-de-imovel",
+  "/locacao-sem-administracao",
+  "/imovel-herdado",
+  "/regularizacao-de-imovel",
+  "/imoveis-de-leilao",
+];
 
 function loadEnv() {
   const env = { ...process.env };
@@ -70,6 +79,7 @@ function sitemap(imoveis) {
     ["/imoveis", "daily", "0.8"],
     ["/anuncie", "monthly", "0.8"],
     ["/avaliacao", "monthly", "0.9"],
+    ...SERVICOS.map((p) => [p, "monthly", p === "/servicos" ? "0.8" : "0.7"]),
     ["/sobre", "monthly", "0.5"],
     ["/contato", "monthly", "0.6"],
     ...imoveis.filter((i) => i.status === "ativo").map((i) => [`/imovel/${i.id}`, "weekly", "0.7"]),
@@ -124,6 +134,7 @@ async function main() {
     { url: "/sobre", out: "sobre/index.html", seed: [] },
     { url: "/anuncie", out: "anuncie/index.html", seed: [] },
     { url: "/avaliacao", out: "avaliacao/index.html", seed: [] },
+    ...SERVICOS.map((p) => ({ url: p, out: `${p.slice(1)}/index.html`, seed: [] })),
     { url: "/contato", out: "contato/index.html", seed: [] },
     { url: "/imoveis", out: "_pre/imoveis-todos/index.html", seed: [[["imoveis", { sort: "recentes" }], imoveis]] },
     { url: "/casas-para-alugar-vargem-grande-do-sul", out: "casas-para-alugar-vargem-grande-do-sul/index.html", seed: [] },

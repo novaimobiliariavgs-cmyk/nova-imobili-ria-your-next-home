@@ -98,6 +98,11 @@ export function HomeSobreServicos() {
               </div>
             ))}
           </div>
+          <p className="mt-8 text-center">
+            <Link to="/servicos" className="text-sm font-medium text-primary hover:underline">
+              Vistoria, locação sem administração, imóvel herdado, regularização e leilão: ver todos os serviços
+            </Link>
+          </p>
         </div>
       </section>
 

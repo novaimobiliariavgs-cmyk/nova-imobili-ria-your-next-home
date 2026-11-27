@@ -17,6 +17,9 @@ import Aluguel from "./pages/Aluguel";
 import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
+import Servicos from "./pages/Servicos";
+import ServicoPage from "./pages/ServicoPage";
+import { servicos } from "./data/servicos";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
@@ -57,6 +60,10 @@ function PublicLayout() {
           <Route path="/anuncie" element={<Anuncie />} />
           <Route path="/avaliacao" element={<Avaliacao />} />
           <Route path="/casas-para-alugar-vargem-grande-do-sul" element={<Aluguel />} />
+          <Route path="/servicos" element={<Servicos />} />
+          {servicos.map((s) => (
+            <Route key={s.slug} path={`/${s.slug}`} element={<ServicoPage slug={s.slug} />} />
+          ))}
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="*" element={<NotFound />} />
