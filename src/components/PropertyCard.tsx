@@ -17,7 +17,7 @@ export function PropertyCard({ imovel }: PropertyCardProps) {
   return (
     <Link
       to={`/imovel/${imovel.id}`}
-      className="group block rounded-xl bg-card overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border/50"
+      className="group block rounded-lg bg-card overflow-hidden hover:shadow-xl transition-all duration-300 border border-border"
     >
       {/* Image */}
       <div className="relative aspect-[4/3] bg-muted overflow-hidden">
@@ -46,13 +46,13 @@ export function PropertyCard({ imovel }: PropertyCardProps) {
 
       {/* Content */}
       <div className="p-4 space-y-2">
-        <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+        <p className="eyebrow text-[11px] text-accent">
           {imovel.bairro} · {imovel.cidade}
         </p>
-        <h3 className="font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+        <h3 className="text-xl text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
           {tituloCartao(imovel.titulo, imovel.bairro)}
         </h3>
-        <p className="text-xl font-bold text-primary">
+        <p className="font-display text-2xl font-bold text-primary">
           {formatPrice(imovel.preco, imovel.finalidade)}
         </p>
 
