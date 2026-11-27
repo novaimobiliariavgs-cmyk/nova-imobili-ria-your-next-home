@@ -97,7 +97,7 @@ export default function ImoveisPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-64 shrink-0 space-y-4">
             <ScrollReveal>
-              <div className="space-y-4 p-4 rounded-xl border border-border bg-card">
+              <div className="space-y-4 p-4 glass-card rounded-2xl">
                 <h3 className="font-semibold text-foreground">Filtros</h3>
                 <div>
                   <label className="text-xs font-medium text-muted-foreground mb-1 block">Finalidade</label>

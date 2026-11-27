@@ -94,8 +94,8 @@ export default function AvaliacaoPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {finalidades.map((f, i) => (
               <ScrollReveal key={f.title} delay={i * 60}>
-                <div className="h-full rounded-xl border border-border bg-card p-6">
-                  <div className="h-12 w-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4"><f.icon className="h-6 w-6" /></div>
+                <div className="h-full glass-card rounded-2xl p-6">
+                  <div className="h-12 w-12 rounded-xl icon-gold flex items-center justify-center mb-4"><f.icon className="h-6 w-6" /></div>
                   <h3 className="font-semibold text-foreground mb-1">{f.title}</h3>
                   <p className="text-sm text-muted-foreground">{f.desc}</p>
                 </div>
@@ -112,7 +112,7 @@ export default function AvaliacaoPage() {
             {diferenciais.map((d, i) => (
               <ScrollReveal key={d.title} delay={i * 80}>
                 <div className="text-center">
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4"><d.icon className="h-7 w-7" /></div>
+                  <div className="h-14 w-14 rounded-2xl icon-gold flex items-center justify-center mx-auto mb-4"><d.icon className="h-7 w-7" /></div>
                   <h3 className="font-semibold text-foreground">{d.title}</h3>
                   <p className="text-sm text-muted-foreground mt-1">{d.desc}</p>
                 </div>
@@ -125,7 +125,7 @@ export default function AvaliacaoPage() {
       <section id="orcamento" className="section-padding bg-background scroll-mt-20">
         <div className="container max-w-2xl">
           <ScrollReveal>
-            <div className="rounded-xl border border-border bg-card p-8">
+            <div className="glass-card rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-foreground mb-2">Peça seu orçamento</h2>
               <p className="text-sm text-muted-foreground mb-6">Sem compromisso. Respondemos com o valor e o prazo do seu laudo.</p>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -165,7 +165,7 @@ export default function AvaliacaoPage() {
           <div className="space-y-4">
             {faq.map((item) => (
               <ScrollReveal key={item.q}>
-                <div className="rounded-xl border border-border bg-card p-6">
+                <div className="glass-card rounded-2xl p-6">
                   <h3 className="font-semibold text-foreground mb-2">{item.q}</h3>
                   <p className="text-sm text-muted-foreground">{item.a}</p>
                 </div>

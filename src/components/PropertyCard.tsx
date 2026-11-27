@@ -49,7 +49,7 @@ export function PropertyCard({ imovel }: PropertyCardProps) {
         <p className="eyebrow text-[11px] text-accent">
           {imovel.bairro} · {imovel.cidade}
         </p>
-        <h3 className="text-xl text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+        <h3 className="text-lg text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
           {tituloCartao(imovel.titulo, imovel.bairro)}
         </h3>
         <p className="font-display text-2xl font-bold text-primary">

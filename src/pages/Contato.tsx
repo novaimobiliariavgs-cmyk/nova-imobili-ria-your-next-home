@@ -54,7 +54,7 @@ export default function ContatoPage() {
               <div className="space-y-6">
                 {info.map((item) => (
                   <div key={item.label} className="flex items-start gap-4">
-                    <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0"><item.icon className="h-5 w-5" /></div>
+                    <div className="h-11 w-11 rounded-xl icon-gold flex items-center justify-center shrink-0"><item.icon className="h-5 w-5" /></div>
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">{item.label}</p>
                       <p className="text-foreground">{item.value}</p>
@@ -71,7 +71,7 @@ export default function ContatoPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={100}>
-              <div className="rounded-xl border border-border bg-card p-8">
+              <div className="glass-card rounded-2xl p-8">
                 <h2 className="text-xl font-bold text-foreground mb-6">Envie uma mensagem</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <input type="text" placeholder="Seu nome *" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} className="w-full h-11 rounded-lg border border-input bg-background px-4 text-sm" required />

@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { HomeSobreServicos } from "@/components/HomeSobreServicos";
-import { AluguelFaixa, ProprietarioBloco } from "@/components/AluguelContato";
 import { listarBairros, type Finalidade } from "@/data/properties";
 import { useImoveisDestaque, useImoveis } from "@/hooks/useImoveis";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -25,21 +24,11 @@ export default function HomePage() {
   const { data: ativos = [] } = useImoveis({ status: "ativo" });
   const bairrosBusca = listarBairros(ativos.filter((i) => i.finalidade !== "aluguel"));
   
-  const [activeTab, setActiveTab] = useState<string>("venda");
 
   const { data: destaqueTodos = [] } = useImoveisDestaque();
   // Aluguel não é listado no site: o cliente chama no WhatsApp.
   const destaque = destaqueTodos.filter((i) => i.finalidade !== "aluguel");
 
-  const tabFilters = (() => {
-    if (activeTab === "venda") return { finalidade: "venda" };
-    if (activeTab === "aluguel") return { finalidade: "aluguel" };
-    if (activeTab === "terrenos") return { tipo: "terreno" };
-    if (activeTab === "comercial") return { tipo: "comercial" };
-    return {};
-  })();
-  const { data: tabTodos = [] } = useImoveis(tabFilters);
-  const tabImoveis = tabTodos.filter((i) => i.finalidade !== "aluguel");
 
   useSEO(
     "Imobiliária em Vargem Grande do Sul | Nova Imobiliária",
@@ -55,10 +44,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--hero-overlay)/0.35)] via-[hsl(var(--hero-overlay)/0.6)] to-[hsl(var(--hero-overlay)/0.92)]" />
         <div className="relative z-10 container pt-36 pb-14 md:pt-44 md:pb-20">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="eyebrow text-gold-light mb-5 animate-reveal-up">O imóvel certo, com segurança do começo ao fim</p>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl text-white leading-[1.02] mb-5 animate-reveal-up" style={{ animationDelay: "80ms" }}>
-              Imobiliária em <em className="text-gold-light">Vargem Grande do Sul</em>
-            </h1>
+            <h1 className="font-sans eyebrow text-gold-light mb-5 animate-reveal-up" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>Imobiliária em Vargem Grande do Sul e região</h1>
+            <p className="font-display font-semibold text-5xl md:text-6xl lg:text-7xl text-white leading-[1.02] mb-5 animate-reveal-up" style={{ animationDelay: "80ms" }}>
+              O imóvel certo, com <em className="text-gold-light">segurança</em> do começo ao fim
+            </p>
             <p className="text-white/85 text-lg max-w-2xl mx-auto mb-10 animate-reveal-up" style={{ animationDelay: "140ms" }}>
               Compra, venda, locação e administração de imóveis, com contratos feitos com rigor jurídico.
             </p>
@@ -73,9 +62,9 @@ export default function HomePage() {
                   </button>
                 ))}
               </div>
-              <label className="flex-1 flex flex-col justify-center px-4 py-2 rounded-2xl bg-white/10 text-[11px] uppercase tracking-[0.15em] text-gold-light">
+              <label className="flex-1 min-w-0 flex flex-col justify-center px-4 py-2 rounded-2xl bg-white/10 text-[11px] uppercase tracking-[0.15em] text-gold-light">
                 Tipo de imóvel
-                <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="bg-transparent text-white text-[15px] normal-case tracking-normal outline-none [&>option]:text-foreground">
+                <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="w-full min-w-0 truncate bg-transparent text-white text-[15px] normal-case tracking-normal outline-none [&>option]:text-foreground">
                   <option value="">Todos</option>
                   <option value="casa">Casa</option>
                   <option value="apartamento">Apartamento</option>
@@ -83,14 +72,14 @@ export default function HomePage() {
                   <option value="comercial">Comercial</option>
                 </select>
               </label>
-              <label className="flex-1 flex flex-col justify-center px-4 py-2 rounded-2xl bg-white/10 text-[11px] uppercase tracking-[0.15em] text-gold-light">
+              <label className="flex-1 min-w-0 flex flex-col justify-center px-4 py-2 rounded-2xl bg-white/10 text-[11px] uppercase tracking-[0.15em] text-gold-light">
                 Bairro
-                <select value={bairro} onChange={(e) => setBairro(e.target.value)} className="bg-transparent text-white text-[15px] normal-case tracking-normal outline-none [&>option]:text-foreground">
+                <select value={bairro} onChange={(e) => setBairro(e.target.value)} className="w-full min-w-0 truncate bg-transparent text-white text-[15px] normal-case tracking-normal outline-none [&>option]:text-foreground">
                   <option value="">Todos os bairros</option>
                   {bairrosBusca.map((b) => <option key={b.chave} value={b.nome}>{b.nome}</option>)}
                 </select>
               </label>
-              <Button size="lg" className="btn-gold rounded-full h-12 md:h-auto px-7" asChild>
+              <Button size="lg" className="btn-gold rounded-full h-12 md:h-auto md:self-stretch px-7 shrink-0" asChild>
                 <Link to={`/imoveis?finalidade=${finalidade}${tipo ? `&tipo=${tipo}` : ""}${bairro && finalidade !== "aluguel" ? `&bairro=${encodeURIComponent(bairro)}` : ""}`}>
                   <Search className="h-5 w-5" /> Buscar
                 </Link>
@@ -139,7 +128,7 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {destaque.map((imovel, i) => (
+            {destaque.slice(0, 3).map((imovel, i) => (
               <ScrollReveal key={imovel.id} delay={i * 80}>
                 <PropertyCard imovel={imovel} />
               </ScrollReveal>
@@ -164,32 +153,6 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
       </section>
-
-      {/* Tabs */}
-      <section className="section-padding bg-muted/30">
-        <div className="container">
-          <ScrollReveal>
-            <h2 className="text-4xl text-primary mb-6">Imóveis por categoria</h2>
-            <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-              {[{ key: "venda", label: "Venda" }, { key: "aluguel", label: "Aluguel" }, { key: "terrenos", label: "Terrenos" }, { key: "comercial", label: "Comercial" }].map((tab) => (
-                <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${activeTab === tab.key ? "bg-primary text-primary-foreground shadow-md" : "bg-background text-muted-foreground hover:text-foreground border border-border"}`}>
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeTab === "aluguel" ? (
-              <div className="col-span-full"><AluguelFaixa /></div>
-            ) : tabImoveis.length > 0 ? tabImoveis.map((imovel) => <PropertyCard key={imovel.id} imovel={imovel} />) : (
-              <div className="col-span-full text-center py-12 text-muted-foreground">Nenhum imóvel encontrado nesta categoria.</div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <ProprietarioBloco fundo="bg-background" />
 
       <HomeSobreServicos />
 

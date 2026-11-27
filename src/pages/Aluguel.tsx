@@ -133,8 +133,8 @@ export default function AluguelPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {tipos.map((t, i) => (
               <ScrollReveal key={t.title} delay={i * 80}>
-                <div className="h-full rounded-xl border border-border bg-card p-6">
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4"><t.icon className="h-6 w-6" /></div>
+                <div className="h-full glass-card rounded-2xl p-6">
+                  <div className="h-12 w-12 rounded-xl icon-gold flex items-center justify-center mb-4"><t.icon className="h-6 w-6" /></div>
                   <h3 className="font-semibold text-foreground mb-1">{t.title}</h3>
                   <p className="text-sm text-muted-foreground">{t.desc}</p>
                 </div>
@@ -142,7 +142,7 @@ export default function AluguelPage() {
             ))}
           </div>
           <ScrollReveal>
-            <div className="rounded-xl border border-border bg-card p-6 text-center">
+            <div className="glass-card rounded-2xl p-6 text-center">
               <h3 className="font-semibold text-foreground mb-3">Bairros com casas para alugar</h3>
               <div className="flex flex-wrap justify-center gap-2">
                 {bairros.map((b) => (
@@ -162,7 +162,7 @@ export default function AluguelPage() {
             {diferenciais.map((d, i) => (
               <ScrollReveal key={d.title} delay={i * 80}>
                 <div className="text-center">
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4"><d.icon className="h-7 w-7" /></div>
+                  <div className="h-14 w-14 rounded-2xl icon-gold flex items-center justify-center mx-auto mb-4"><d.icon className="h-7 w-7" /></div>
                   <h3 className="font-semibold text-foreground">{d.title}</h3>
                   <p className="text-sm text-muted-foreground mt-1">{d.desc}</p>
                 </div>
@@ -177,7 +177,7 @@ export default function AluguelPage() {
           <ScrollReveal><h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">Perguntas frequentes sobre aluguel</h2></ScrollReveal>
           <div className="space-y-4">
             {faq.map((f) => (
-              <div key={f.q} className="rounded-xl border border-border bg-card p-6">
+              <div key={f.q} className="glass-card rounded-2xl p-6">
                 <h3 className="font-semibold text-foreground mb-2">{f.q}</h3>
                 <p className="text-sm text-muted-foreground">{f.a}</p>
               </div>
