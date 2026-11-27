@@ -42,13 +42,10 @@ export default function HomePage() {
       <section className="relative overflow-hidden">
         <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover object-[58%_center]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--hero-overlay)/0.35)] via-[hsl(var(--hero-overlay)/0.6)] to-[hsl(var(--hero-overlay)/0.92)]" />
-        <div className="relative z-10 container pt-36 pb-14 md:pt-44 md:pb-20">
+        <div className="relative z-10 container pt-32 pb-14 md:pt-40 md:pb-20">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-sans eyebrow text-gold-light mb-5 animate-reveal-up" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>Imobiliária em Vargem Grande do Sul e região</h1>
-            <p className="font-display font-semibold text-5xl md:text-6xl lg:text-7xl text-white leading-[1.02] mb-5 animate-reveal-up" style={{ animationDelay: "80ms" }}>
-              O imóvel certo, com <em className="text-gold-light">segurança</em> do começo ao fim
-            </p>
-            <p className="text-white/85 text-lg max-w-2xl mx-auto mb-10 animate-reveal-up" style={{ animationDelay: "140ms" }}>
+            <p className="text-white/90 text-xl md:text-2xl max-w-2xl mx-auto mb-10 animate-reveal-up" style={{ animationDelay: "100ms" }}>
               Compra, venda, locação e administração de imóveis, com contratos feitos com rigor jurídico.
             </p>
           </div>
