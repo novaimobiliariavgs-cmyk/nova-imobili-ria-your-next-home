@@ -67,7 +67,7 @@ export default function AnunciePage() {
       <section className="section-padding bg-muted/30">
         <div className="container max-w-2xl">
           <ScrollReveal>
-            <div className="rounded-xl border border-border bg-card p-8">
+            <div className="glass-card rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-foreground mb-6">Cadastre seu imóvel</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -158,7 +158,7 @@ export default function ImovelDetailPage() {
           <aside className="lg:w-96 shrink-0">
             <ScrollReveal>
               <div className="sticky top-24 space-y-4">
-                <div className="rounded-xl border border-border bg-card p-6 space-y-4">
+                <div className="glass-card rounded-2xl p-6 space-y-4">
                   <h3 className="font-semibold text-foreground">Tenho interesse neste imóvel</h3>
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <input type="text" placeholder="Seu nome *" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm" required />

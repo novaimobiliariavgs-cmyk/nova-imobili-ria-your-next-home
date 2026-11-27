@@ -25,19 +25,19 @@ export default function ServicosPage() {
         </div>
       </div>
 
-      <section className="section-padding bg-background">
+      <section className="section-padding glow-bg">
         <div className="container">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {cards.map((c, i) => (
               <ScrollReveal key={c.slug} delay={i * 60}>
                 <Link
                   to={`/${c.slug}`}
-                  className="group h-full flex flex-col rounded-xl border border-border bg-card p-6 hover:border-primary/40 hover:shadow-md transition"
+                  className="group h-full flex flex-col glass-card rounded-2xl p-6 hover:border-primary/40 hover:shadow-md transition"
                 >
-                  <div className="h-12 w-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+                  <div className="h-12 w-12 rounded-xl icon-gold flex items-center justify-center mb-4">
                     <c.icon className="h-6 w-6" />
                   </div>
-                  <h2 className="font-semibold text-lg text-foreground mb-1">{c.nome}</h2>
+                  <h2 className="text-2xl text-primary mb-2">{c.nome}</h2>
                   <p className="text-sm text-muted-foreground flex-1">{c.resumo}</p>
                   <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
                     Saiba mais <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

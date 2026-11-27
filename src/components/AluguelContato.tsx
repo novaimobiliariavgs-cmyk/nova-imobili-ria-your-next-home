@@ -27,8 +27,8 @@ export function ProprietarioBloco({ fundo = "bg-muted/30" }: { fundo?: string })
     <section className={`section-padding ${fundo}`}>
       <div className="container max-w-3xl">
         <ScrollReveal>
-          <div className="rounded-xl border border-border bg-card p-8 text-center">
-            <div className="h-14 w-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4"><HomeIcon className="h-7 w-7" /></div>
+          <div className="glass-card rounded-2xl p-8 text-center">
+            <div className="h-14 w-14 rounded-xl icon-gold flex items-center justify-center mx-auto mb-4"><HomeIcon className="h-7 w-7" /></div>
             <h2 className="text-2xl font-bold text-foreground mb-3">Tem um imóvel para alugar?</h2>
             <p className="text-muted-foreground mb-6">
               A Nova administra para você: divulgação, análise do inquilino, contrato, vistoria com relatório fotográfico,

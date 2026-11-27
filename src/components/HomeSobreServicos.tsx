@@ -73,10 +73,10 @@ const faqSchema = {
 export function HomeSobreServicos() {
   return (
     <>
-      <section className="section-padding bg-background">
+      <section className="section-padding glow-bg">
         <div className="container">
           <div className="max-w-3xl mb-10">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Imobiliária em Vargem Grande do Sul</h2>
+            <h2 className="text-4xl text-primary mb-4">Imobiliária em Vargem Grande do Sul e região</h2>
             <p className="text-muted-foreground leading-relaxed">
               A Nova Imobiliária é uma imobiliária em Vargem Grande do Sul/SP que aluga, vende e administra imóveis
               residenciais e comerciais. Os sócios são advogados: contratos de locação e de compra e venda são
@@ -86,8 +86,8 @@ export function HomeSobreServicos() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {servicos.map((s) => (
-              <div key={s.title} className="p-6 rounded-xl border border-border bg-card">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+              <div key={s.title} className="p-6 glass-card rounded-2xl">
+                <div className="h-12 w-12 rounded-xl icon-gold flex items-center justify-center mb-4">
                   <s.icon className="h-6 w-6" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">{s.title}</h3>
@@ -108,13 +108,16 @@ export function HomeSobreServicos() {
 
       <section className="section-padding bg-muted/30">
         <div className="container max-w-3xl">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Perguntas frequentes</h2>
-          <div className="space-y-6">
+          <h2 className="text-4xl text-primary mb-8">Perguntas frequentes</h2>
+          <div className="space-y-3">
             {faq.map((item) => (
-              <div key={item.q}>
-                <h3 className="font-semibold text-foreground mb-1">{item.q}</h3>
-                <p className="text-muted-foreground leading-relaxed">{item.a}</p>
-              </div>
+              <details key={item.q} className="group glass-card rounded-2xl px-5 py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground [&::-webkit-details-marker]:hidden">
+                  <h3 className="text-base">{item.q}</h3>
+                  <span className="text-accent text-xl leading-none transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                </summary>
+                <p className="mt-3 text-muted-foreground leading-relaxed">{item.a}</p>
+              </details>
             ))}
           </div>
         </div>

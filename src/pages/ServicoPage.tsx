@@ -42,7 +42,7 @@ export default function ServicoPage({ slug }: { slug: string }) {
           <ScrollReveal><h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">O que fazemos</h2></ScrollReveal>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {s.paraQuem.map((item) => (
-              <li key={item} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+              <li key={item} className="flex items-start gap-3 glass-card rounded-2xl p-4">
                 <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
                 <span className="text-sm text-foreground">{item}</span>
               </li>
@@ -51,13 +51,13 @@ export default function ServicoPage({ slug }: { slug: string }) {
         </div>
       </section>
 
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding glow-bg">
         <div className="container max-w-4xl">
           <ScrollReveal><h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-10">Como funciona</h2></ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {s.passos.map((p, i) => (
               <ScrollReveal key={p.title} delay={i * 80}>
-                <div className="h-full rounded-xl border border-border bg-card p-6">
+                <div className="h-full glass-card rounded-2xl p-6">
                   <div className="h-10 w-10 rounded-full bg-primary text-white font-bold flex items-center justify-center mb-4">{i + 1}</div>
                   <h3 className="font-semibold text-foreground mb-1">{p.title}</h3>
                   <p className="text-sm text-muted-foreground">{p.desc}</p>
@@ -88,7 +88,7 @@ export default function ServicoPage({ slug }: { slug: string }) {
           <ScrollReveal><h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">Perguntas frequentes</h2></ScrollReveal>
           <div className="space-y-4">
             {s.faq.map((item) => (
-              <div key={item.q} className="rounded-xl border border-border bg-card p-6">
+              <div key={item.q} className="glass-card rounded-2xl p-6">
                 <h3 className="font-semibold text-foreground mb-2">{item.q}</h3>
                 <p className="text-sm text-muted-foreground">{item.a}</p>
               </div>
