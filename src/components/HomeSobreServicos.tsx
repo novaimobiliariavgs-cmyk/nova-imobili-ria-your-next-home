@@ -51,7 +51,7 @@ const faq = [
   },
   {
     q: "Quais cidades a Nova Imobiliária atende?",
-    a: "Vargem Grande do Sul, São João da Boa Vista, Casa Branca, Itobi, Divinolândia e Poços de Caldas.",
+    a: "Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas, Casa Branca, Aguaí, Espírito Santo do Pinhal, São Sebastião da Grama, Divinolândia, Itobi, Mococa e São José do Rio Pardo.",
   },
   {
     q: "Qual o endereço e o horário de atendimento?",

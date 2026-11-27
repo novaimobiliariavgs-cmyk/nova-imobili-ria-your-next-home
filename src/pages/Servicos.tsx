@@ -8,8 +8,8 @@ const cards = [laudoCard, ...servicos];
 
 export default function ServicosPage() {
   useSEO(
-    "Serviços Imobiliários em Vargem Grande do Sul | Nova Imobiliária",
-    "Laudos de avaliação, vistoria de imóvel, locação sem administração, imóvel herdado, regularização e imóveis de leilão em Vargem Grande do Sul e região. Valor sob consulta.",
+    "Serviços Imobiliários em Vargem Grande do Sul e Região | Nova Imobiliária",
+    "Laudos de avaliação, vistoria de imóvel, locação sem administração, imóvel herdado, regularização e imóveis de leilão em Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas e região.",
     "/servicos"
   );
 
@@ -20,7 +20,7 @@ export default function ServicosPage() {
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Serviços</h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
             Além de vender, alugar e administrar imóveis, a Nova Imobiliária resolve o que o seu imóvel precisa.
-            Valores sob consulta.
+            Atendemos Vargem Grande do Sul, São João da Boa Vista, Poços de Caldas e região. Valores sob consulta.
           </p>
         </div>
       </div>

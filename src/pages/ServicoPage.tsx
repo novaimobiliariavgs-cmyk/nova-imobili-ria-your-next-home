@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { CheckCircle2, MessageCircle } from "lucide-react";
+import { CheckCircle2, MapPin, MessageCircle } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { getServico } from "@/data/servicos";
+import { CIDADES, getServico } from "@/data/servicos";
 import NotFound from "./NotFound";
 
 const whatsapp = (msg: string) => "https://wa.me/5519992243434?text=" + encodeURIComponent(msg);
@@ -68,7 +68,22 @@ export default function ServicoPage({ slug }: { slug: string }) {
         </div>
       </section>
 
-      <section className="section-padding bg-background">
+      <section className="section-padding-sm bg-background">
+        <div className="container max-w-3xl text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Cidades atendidas</h2>
+          <p className="text-muted-foreground mb-6">Sede em Vargem Grande do Sul/SP, com atendimento em toda a região.</p>
+          <ul className="flex flex-wrap justify-center gap-2">
+            {CIDADES.map((c) => (
+              <li key={c} className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1.5 text-sm text-foreground">
+                <MapPin className="h-3.5 w-3.5 text-accent" />
+                {c}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="section-padding bg-muted/30">
         <div className="container max-w-3xl">
           <ScrollReveal><h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">Perguntas frequentes</h2></ScrollReveal>
           <div className="space-y-4">
