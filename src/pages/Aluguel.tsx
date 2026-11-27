@@ -77,10 +77,10 @@ export default function AluguelPage() {
   );
 
   return (
-    <div className="pt-16">
+    <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      <div className="bg-primary-dark text-white section-padding">
+      <div className="bg-primary-dark text-white page-hero">
         <div className="container text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Casas para alugar em Vargem Grande do Sul</h1>
           <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">

@@ -10,8 +10,8 @@ const stats = [
 export default function SobrePage() {
   useSEO("Sobre a Nova Imobiliária | Imobiliária em Vargem Grande do Sul", "Conheça a Nova Imobiliária: imobiliária local em Vargem Grande do Sul/SP, especializada em locação, venda e administração de imóveis.", "/sobre");
   return (
-    <div className="pt-16">
-      <div className="bg-primary-dark text-white section-padding">
+    <div>
+      <div className="bg-primary-dark text-white page-hero">
         <div className="container">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Sobre a Nova Imobiliária</h1>
           <p className="text-white/70 text-lg max-w-2xl">

@@ -85,8 +85,8 @@ export default function ImoveisPage() {
   if (finalidade === "aluguel") return <Navigate to="/casas-para-alugar-vargem-grande-do-sul" replace />;
 
   return (
-    <div className="pt-16">
-      <div className="bg-primary-dark text-white section-padding-sm">
+    <div>
+      <div className="bg-primary-dark text-white page-hero">
         <div className="container">
           <h1 className="text-3xl md:text-4xl font-bold">Imóveis</h1>
           <p className="text-white/70 mt-1">Encontre o imóvel perfeito para você</p>

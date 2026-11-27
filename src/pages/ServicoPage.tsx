@@ -22,8 +22,8 @@ export default function ServicoPage({ slug }: { slug: string }) {
   };
 
   return (
-    <div className="pt-16">
-      <div className="bg-primary-dark text-white section-padding">
+    <div>
+      <div className="bg-primary-dark text-white page-hero">
         <div className="container text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">{s.h1}</h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">{s.intro}</p>

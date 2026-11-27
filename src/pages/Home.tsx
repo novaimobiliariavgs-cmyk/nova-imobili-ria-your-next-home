@@ -39,10 +39,10 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden md:min-h-[540px] lg:min-h-[580px] md:flex md:items-center">
         <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover object-[58%_center]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--hero-overlay)/0.35)] via-[hsl(var(--hero-overlay)/0.6)] to-[hsl(var(--hero-overlay)/0.92)]" />
-        <div className="relative z-10 container pt-32 pb-14 md:pt-40 md:pb-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--hero-overlay)/0.55)] via-[hsl(var(--hero-overlay)/0.55)] to-[hsl(var(--hero-overlay)/0.85)]" />
+        <div className="relative z-10 container w-full pt-32 pb-14 md:pt-28 md:pb-16">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-sans eyebrow text-gold-light mb-5 animate-reveal-up" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>Imobiliária em Vargem Grande do Sul e região</h1>
             <p className="text-white/90 text-xl md:text-2xl max-w-2xl mx-auto mb-10 animate-reveal-up" style={{ animationDelay: "100ms" }}>
